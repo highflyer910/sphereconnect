@@ -1,0 +1,70 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+button,
+a {
+  transition: all 0.2s ease-in-out;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Scrollbar Styling - Fallback only */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f0ebe4;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #b19777;
+  border-radius: 10px;
+  border: 2px solid #f0ebe4;
+  transition: background-color 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #756652;
+}
+
+/* Firefox scrollbar styling - Fallback only */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #b19777 #f0ebe4;
+}
+
