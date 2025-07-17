@@ -10,6 +10,7 @@ const commonSettings = {
       'sans-serif',
     ].join(','),
   },
+  
   components: {
     MuiCssBaseline: {
       styleOverrides: (theme) => ({

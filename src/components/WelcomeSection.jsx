@@ -40,7 +40,7 @@ const WelcomeSection = () => {
         p: { xs: 2, sm: 3, lg: 3.5 },
         borderRadius: 4,
         background: `linear-gradient(120deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-        color: theme.palette.text.primary, // Ensure text color is from theme
+        color: theme.palette.text.primary,
         boxShadow: theme.shadows[4],
       }}
     >

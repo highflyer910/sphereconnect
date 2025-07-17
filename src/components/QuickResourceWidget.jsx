@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Paper,
-  Grid,
   Typography,
   Modal,
   Box,
@@ -32,7 +31,7 @@ const resources = [
     icon: <CalendarCheck size={24} />,
     label: 'Time Tracker',
     key: 'time',
-    content: (theme) => (
+    content: (theme, timerState) => (
       <>
         <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary', mb: 2 }}>
           Time Tracker
@@ -48,15 +47,15 @@ const resources = [
           <CardContent sx={{ textAlign: 'center', py: 2 }}>
             <Typography
               variant="h5"
+              id="time-tracker-display"
               sx={{
                 fontWeight: 700,
                 color: 'text.primary',
                 fontFamily: 'Inter, Arial, sans-serif',
                 letterSpacing: '0.1em',
               }}
-              id="time-tracker-display"
             >
-              00:00:00
+              {timerState.time}
             </Typography>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>
               Current Session
@@ -71,6 +70,8 @@ const resources = [
             startIcon={<Play size={16} />}
             size="small"
             aria-label="Start timer"
+            onClick={timerState.startTimer}
+            disabled={timerState.isRunning}
           >
             Start
           </Button>
@@ -78,10 +79,11 @@ const resources = [
             variant="contained"
             color="secondary"
             id="time-tracker-stop"
-            disabled
             startIcon={<Square size={16} />}
             size="small"
             aria-label="Stop timer"
+            onClick={timerState.stopTimer}
+            disabled={!timerState.isRunning}
           >
             Stop
           </Button>
@@ -91,6 +93,7 @@ const resources = [
             startIcon={<RotateCcw size={16} />}
             size="small"
             aria-label="Reset timer"
+            onClick={timerState.resetTimer}
           >
             Reset
           </Button>
@@ -108,19 +111,13 @@ const resources = [
               sx={{ bgcolor: 'background.paper', borderRadius: 4 }}
             >
               <MenuItem value="Project A">
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  Project A
-                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>Project A</Box>
               </MenuItem>
               <MenuItem value="Project B">
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  Project B
-                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>Project B</Box>
               </MenuItem>
               <MenuItem value="Project C">
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  Project C
-                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>Project C</Box>
               </MenuItem>
             </Select>
           </Box>
@@ -136,7 +133,7 @@ const resources = [
               fullWidth
               multiline
               rows={2}
-              sx={{ '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
+              sx={{ '& .MuiOutlinedInput.root': { borderRadius: 4 } }}
             />
           </Box>
         </Box>
@@ -271,8 +268,8 @@ const resources = [
         <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary', mb: 2 }}>
           Analytics Dashboard
         </Typography>
-        <Grid container spacing={1.5} sx={{ mb: 2 }}>
-          <Grid item xs={6}>
+        <Box container spacing={1.5} sx={{ mb: 2 }}>
+          <Box item xs={6}>
             <Card
               sx={{
                 textAlign: 'center',
@@ -290,8 +287,8 @@ const resources = [
                 </Typography>
               </CardContent>
             </Card>
-          </Grid>
-          <Grid item xs={6}>
+          </Box>
+          <Box item xs={6}>
             <Card
               sx={{
                 textAlign: 'center',
@@ -309,10 +306,10 @@ const resources = [
                 </Typography>
               </CardContent>
             </Card>
-          </Grid>
-        </Grid>
-        <Grid container spacing={1.5} sx={{ mb: 2 }}>
-          <Grid item xs={4}>
+          </Box>
+        </Box>
+        <Box container spacing={1.5} sx={{ mb: 2 }}>
+          <Box item xs={4}>
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2" sx={{ color: 'primary.main', fontWeight: 600 }}>
                 127
@@ -321,8 +318,8 @@ const resources = [
                 Tasks Completed
               </Typography>
             </Box>
-          </Grid>
-          <Grid item xs={4}>
+          </Box>
+          <Box item xs={4}>
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2" sx={{ color: 'secondary.main', fontWeight: 600 }}>
                 8.5h
@@ -331,8 +328,8 @@ const resources = [
                 Avg. Daily Hours
               </Typography>
             </Box>
-          </Grid>
-          <Grid item xs={4}>
+          </Box>
+          <Box item xs={4}>
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2" sx={{ color: 'primary.main', fontWeight: 600 }}>
                 23
@@ -341,8 +338,8 @@ const resources = [
                 Team Members
               </Typography>
             </Box>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
         <Button
           variant="contained"
           color="secondary"
@@ -359,84 +356,76 @@ const resources = [
 
 export default function QuickResourcesWidget() {
   const [open, setOpen] = useState(false);
-  const [activeContent, setActiveContent] = useState(null);
+  const [activeKey, setActiveKey] = useState(null);
   const theme = useTheme();
-  const timerDisplayRef = useRef(null);
-  const startBtnRef = useRef(null);
-  const stopBtnRef = useRef(null);
-  const resetBtnRef = useRef(null);
+
+  // Timer state
+  const [seconds, setSeconds] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  const timerRef = useRef(null);
+
+  const startTimer = () => {
+    if (!isRunning) {
+      setIsRunning(true);
+    }
+  };
+
+  const stopTimer = () => {
+    if (isRunning) {
+      setIsRunning(false);
+    }
+  };
+
+  const resetTimer = () => {
+    setIsRunning(false);
+    setSeconds(0);
+  };
+
+  const time = `${String(Math.floor(seconds / 3600)).padStart(2, '0')}:${String(
+    Math.floor((seconds % 3600) / 60)
+  ).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
+
+  const timerState = {
+    time,
+    isRunning,
+    startTimer,
+    stopTimer,
+    resetTimer,
+  };
 
   useEffect(() => {
-    if (activeContent?.key === 'time') {
-      let seconds = 0;
-      let timer;
-
-      const updateTimer = () => {
-        const hrs = Math.floor(seconds / 3600).toString().padStart(2, '0');
-        const mins = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
-        const secs = (seconds % 60).toString().padStart(2, '0');
-        if (timerDisplayRef.current) {
-          timerDisplayRef.current.textContent = `${hrs}:${mins}:${secs}`;
-        }
-      };
-
-      const startTimer = () => {
-        timer = setInterval(() => {
-          seconds++;
-          updateTimer();
-        }, 1000);
-        if (startBtnRef.current) startBtnRef.current.disabled = true;
-        if (stopBtnRef.current) stopBtnRef.current.disabled = false;
-      };
-
-      const stopTimer = () => {
-        clearInterval(timer);
-        if (startBtnRef.current) startBtnRef.current.disabled = false;
-        if (stopBtnRef.current) stopBtnRef.current.disabled = true;
-      };
-
-      const resetTimer = () => {
-        clearInterval(timer);
-        seconds = 0;
-        updateTimer();
-        if (startBtnRef.current) startBtnRef.current.disabled = false;
-        if (stopBtnRef.current) stopBtnRef.current.disabled = true;
-      };
-
-      const startBtn = startBtnRef.current;
-      const stopBtn = stopBtnRef.current;
-      const resetBtn = resetBtnRef.current;
-
-      startBtn?.addEventListener('click', startTimer);
-      stopBtn?.addEventListener('click', stopTimer);
-      resetBtn?.addEventListener('click', resetTimer);
-
-      return () => {
-        clearInterval(timer);
-        startBtn?.removeEventListener('click', startTimer);
-        stopBtn?.removeEventListener('click', stopTimer);
-        resetBtn?.removeEventListener('click', resetTimer);
-      };
+    if (isRunning) {
+      timerRef.current = setInterval(() => {
+        setSeconds((prev) => prev + 1);
+      }, 1000);
+    } else if (timerRef.current) {
+      clearInterval(timerRef.current);
     }
-  }, [activeContent]);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isRunning]);
 
   const openModal = (item) => {
-    setActiveContent(item);
+    setActiveKey(item.key);
     setOpen(true);
   };
 
   const closeModal = () => {
     setOpen(false);
-    setActiveContent(null);
+    setActiveKey(null);
   };
+
+  const activeContent = resources.find((res) => res.key === activeKey);
 
   return (
     <Paper
-      elevation={0}
+      elevation={2}
       sx={{
         p: 2,
         borderRadius: 4,
-        bgcolor: 'background.paper',
+        bgcolor: theme.palette.background.paper,
         width: '100%',
         maxWidth: { xs: '100%', md: 350 },
         mx: { xs: 'auto', md: 0 },
@@ -459,21 +448,15 @@ export default function QuickResourcesWidget() {
           <Rocket size={20} />
           Quick Access
         </Typography>
-        <Box
-          sx={{
-            width: '100%',
-            height: '2px',
-            
-          }}
-        />
+        <Box sx={{ width: '100%', height: '2px' }} />
       </Box>
+
       <Box
   sx={{
     display: 'flex',
     flexWrap: 'wrap',
     gap: 1,
     justifyContent: 'center',
-    mx: -1, // Compensate for padding or margins if needed
   }}
 >
   {resources.map((res, i) => (
@@ -481,19 +464,29 @@ export default function QuickResourcesWidget() {
       key={i}
       onClick={() => openModal(res)}
       sx={{
+        width: {
+          xs: '100%',
+          sm: 'calc(50% - 4px)',
+          md: 'calc(50% - 4px)',
+        },
+
+        flexShrink: 0,
+        flexGrow: 0,
+
+        flexBasis: {
+          xs: '100%',
+          sm: 'calc(50% - 4px)',
+          md: 'calc(50% - 4px)',
+        },
+
         border: `1px solid ${theme.palette.divider}`,
         borderRadius: 4,
         p: 2,
         textAlign: 'center',
         cursor: 'pointer',
         transition: 'all 0.3s ease',
-        bgcolor: 'background.paper',
         boxSizing: 'border-box',
-        width: { xs: 'calc(100% - 8px)', sm: 'calc(50% - 8px)', md: 'calc(50% - 8px)' },
-        minWidth: { xs: '120px', sm: '140px', md: '160px' },
-        maxWidth: { xs: '100%', sm: '160px', md: '160px' },
-        flexGrow: 0,
-        flexShrink: 0,
+
         '&:hover': {
           borderColor: theme.palette.primary.main,
           transform: 'translateY(-2px)',
@@ -501,20 +494,14 @@ export default function QuickResourcesWidget() {
       }}
     >
       {React.cloneElement(res.icon, { color: theme.palette.primary.main })}
-      <Typography
-        variant="body2"
-        sx={{ mt: 1, fontWeight: 500, color: 'text.primary' }}
-      >
+      <Typography variant="body2" sx={{ mt: 1, fontWeight: 500, color: 'text.primary' }}>
         {res.label}
       </Typography>
     </Box>
   ))}
 </Box>
-      <Modal
-        open={open}
-        onClose={closeModal}
-        aria-labelledby="quick-resource-modal"
-      >
+
+      <Modal open={open} onClose={closeModal} aria-labelledby="quick-resource-modal">
         <Box
           sx={{
             position: 'absolute',
@@ -529,21 +516,6 @@ export default function QuickResourcesWidget() {
             border: '1px solid rgba(0, 0, 0, 0.1)',
             maxHeight: '80vh',
             overflowY: 'auto',
-            '&::-webkit-scrollbar': {
-              width: '8px',
-            },
-            '&::-webkit-scrollbar-track': {
-              background: theme => theme.palette.background.paper,
-              borderRadius: '4px',
-            },
-            '&::-webkit-scrollbar-thumb': {
-              background: theme => theme.palette.primary.main,
-              borderRadius: '4px',
-              border: theme => `2px solid ${theme.palette.background.paper}`,
-            },
-            '&::-webkit-scrollbar-thumb:hover': {
-              background: theme => theme.palette.secondary.main,
-            },
           }}
         >
           <IconButton
@@ -559,7 +531,7 @@ export default function QuickResourcesWidget() {
           >
             <X size={20} />
           </IconButton>
-          {activeContent?.content(theme)}
+          {activeContent && activeContent.content(theme, timerState)}
         </Box>
       </Modal>
     </Paper>
