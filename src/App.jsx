@@ -17,6 +17,7 @@ export default function App() {
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default", color: "text.primary" }}>
       <Header />
+      <Navbar />
       <WelcomeSection />
       <ResourcesSection />
       <AnnouncementsWidget />
@@ -29,8 +30,7 @@ export default function App() {
       <Footer />
 
       <Container maxWidth="xl" sx={{ mt: 4 }}>
-        <Navbar />
-        {/* TODO: Add Routes / Pages here */}
+        
 
       </Container>
     </Box>
