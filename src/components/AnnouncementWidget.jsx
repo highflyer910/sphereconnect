@@ -5,9 +5,9 @@ import {
   Box,
   Chip,
   Stack,
-  IconButton,
   Button,
   useTheme,
+  Divider,
 } from '@mui/material';
 import { Megaphone } from 'lucide-react';
 
@@ -28,14 +28,6 @@ const announcements = [
     tag: 'HR',
     tagColor: 'warning',
   },
-  {
-    date: 'July 12, 2025',
-    title: 'New Wellness Perks',
-    description:
-      'Our employee wellness program just got better! Yoga classes, mental health days, and fresh fruit deliveries start next week.',
-    tag: 'Wellness',
-    tagColor: 'success',
-  },
 ];
 
 const AnnouncementsWidget = () => {
@@ -47,15 +39,16 @@ const AnnouncementsWidget = () => {
       sx={{
         p: 3,
         borderRadius: 4,
-        bgcolor: theme.palette.background.paper,
+        bgcolor: 'background.paper',
         width: '100%',
-        maxWidth: { xs: '100%', md: 350 },
-        mx: { xs: 'auto', md: 0 },
-        mt: 4,
-        ml: { md: 4 },
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
       }}
+      role="region"
       aria-labelledby="announcements-heading"
     >
+      {/* Widget Header */}
       <Box
         sx={{
           display: 'flex',
@@ -67,50 +60,57 @@ const AnnouncementsWidget = () => {
         <Typography
           id="announcements-heading"
           variant="h6"
+          component="h3"
           sx={{
             display: 'flex',
             alignItems: 'center',
             gap: 1,
-            color: theme.palette.text.primary,
+            fontWeight: 600,
           }}
         >
-          <Megaphone size={20} /> Announcements
+          <Megaphone size={22} color={theme.palette.primary.main} />
+          Announcements
         </Typography>
-        <Button size="small" variant="outlined">
+        <Button size="small" variant="outlined" aria-label="View all announcements">
           View All
         </Button>
       </Box>
 
-      <Stack spacing={2}>
+      <Divider sx={{ mb: 2 }} />
+
+      <Stack spacing={2} sx={{ flex: 1, overflowY: 'auto' }}>
         {announcements.map((item, index) => (
           <Box
+            component="article"
             key={index}
+            aria-labelledby={`announcement-title-${index}`}
             sx={{
               p: 2,
               border: `1px solid ${theme.palette.divider}`,
               borderRadius: 2,
-              transition: 'all 0.3s ease',
+              transition: 'border-color 0.3s ease',
               '&:hover': {
-                boxShadow: theme.shadows[3],
-                borderColor: theme.palette.primary.main,
+                borderColor: theme.palette.primary.main, 
               },
             }}
           >
             <Typography
               variant="caption"
-              sx={{ color: theme.palette.text.secondary, mb: 0.5 }}
+              sx={{ color: 'text.secondary', mb: 0.5, display: 'block' }}
             >
               {item.date}
             </Typography>
             <Typography
+              id={`announcement-title-${index}`}
               variant="subtitle1"
-              sx={{ fontWeight: 600, mb: 0.5, color: theme.palette.text.primary }}
+              component="h4"
+              sx={{ fontWeight: 600, mb: 1, color: 'text.primary' }}
             >
               {item.title}
             </Typography>
             <Typography
               variant="body2"
-              sx={{ mb: 1, color: theme.palette.text.secondary }}
+              sx={{ mb: 1.5, color: 'text.secondary' }}
             >
               {item.description}
             </Typography>
@@ -122,4 +122,4 @@ const AnnouncementsWidget = () => {
   );
 };
 
-export default AnnouncementsWidget;
+export default React.memo(AnnouncementsWidget);

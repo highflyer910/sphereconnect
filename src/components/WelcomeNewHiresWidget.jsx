@@ -7,14 +7,15 @@ import {
   Box,
   useTheme,
   IconButton,
-  Button
+  Button,
+  Divider,
 } from '@mui/material';
 import { MessageSquare, UserPlus } from 'lucide-react';
 
 const newHires = [
   { name: 'Eric R.', role: 'UX Researcher', avatar: 'https://i.pravatar.cc/150?img=15' },
   { name: 'Kevin D.', role: 'Backend Developer', avatar: 'https://i.pravatar.cc/150?img=12' },
-  { name: 'Sofia G.', role: 'HR Specialist', avatar: 'https://i.pravatar.cc/150?img=21' }
+  { name: 'Sofia G.', role: 'HR Specialist', avatar: 'https://i.pravatar.cc/150?img=21' },
 ];
 
 const WelcomeNewHiresWidget = () => {
@@ -26,12 +27,13 @@ const WelcomeNewHiresWidget = () => {
       sx={{
         p: 3,
         borderRadius: 4,
-        bgcolor: theme.palette.background.paper,
+        bgcolor: 'background.paper',
         width: '100%',
-        maxWidth: 350,
-        mx: { xs: 'auto', md: 0 },
-        mt: 4,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
       }}
+      role="region"
       aria-labelledby="new-hires-heading"
     >
       <Box
@@ -45,21 +47,25 @@ const WelcomeNewHiresWidget = () => {
         <Typography
           id="new-hires-heading"
           variant="h6"
+          component="h3"
           sx={{
             display: 'flex',
             alignItems: 'center',
             gap: 1,
-            color: theme.palette.text.primary,
+            fontWeight: 600,
           }}
         >
-          <UserPlus size={20} /> New Hires
+          <UserPlus size={22} color={theme.palette.primary.main} />
+          New Hires
         </Typography>
-        <Button size="small" variant="outlined">
+        <Button size="small" variant="outlined" aria-label="View all new hires">
           View All
         </Button>
       </Box>
 
-      <Stack spacing={2}>
+      <Divider sx={{ mb: 2 }} />
+
+      <Stack spacing={2} sx={{ flex: 1, overflowY: 'auto' }}>
         {newHires.map((person, index) => (
           <Box
             key={index}
@@ -67,9 +73,8 @@ const WelcomeNewHiresWidget = () => {
               p: 2,
               border: `1px solid ${theme.palette.divider}`,
               borderRadius: 2,
-              transition: 'all 0.3s ease',
+              transition: 'border-color 0.3s ease',
               '&:hover': {
-                boxShadow: theme.shadows[3],
                 borderColor: theme.palette.primary.main,
               },
               display: 'flex',
@@ -79,7 +84,7 @@ const WelcomeNewHiresWidget = () => {
           >
             <Avatar 
               src={person.avatar} 
-              alt={person.name}
+              alt={`Portrait of ${person.name}`}
               sx={{ width: 40, height: 40 }}
             />
             <Box sx={{ flex: 1 }}>
@@ -110,4 +115,4 @@ const WelcomeNewHiresWidget = () => {
   );
 };
 
-export default WelcomeNewHiresWidget;
+export default React.memo(WelcomeNewHiresWidget);

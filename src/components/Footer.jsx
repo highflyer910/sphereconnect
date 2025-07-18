@@ -55,12 +55,12 @@ export default function Footer() {
         borderTop: '1px solid',
         borderColor: 'divider',
         py: { xs: 2, md: 3 },
-        mt: 4,
+        mt: 'auto',
+        position: 'relative'
       }}
       component="footer"
     >
       <Container maxWidth="xl">
-        {/* Main Footer Content */}
         <Box sx={{
           display: 'flex',
           flexDirection: { xs: 'column', lg: 'row' },
@@ -69,7 +69,6 @@ export default function Footer() {
           gap: { xs: 3, md: 4 },
           mb: 3
         }}>
-          {/* Logo Section */}
           <Box sx={{ 
             width: { xs: '100%', lg: 'auto' },
             mb: { xs: 2, lg: 0 }
@@ -118,7 +117,6 @@ export default function Footer() {
             </Box>
           </Box>
 
-          {/* Links Section */}
           <Box sx={{
             display: 'grid',
             gridTemplateColumns: { 
@@ -178,7 +176,6 @@ export default function Footer() {
           </Box>
         </Box>
 
-        {/* Copyright */}
         <Box sx={{
           borderTop: '1px solid',
           borderColor: 'divider',

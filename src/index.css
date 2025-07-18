@@ -40,7 +40,7 @@ ul {
   transition: opacity 0.2s ease;
 }
 
-/* Scrollbar Styling - Fallback only */
+/* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -62,9 +62,29 @@ ul {
   background-color: #756652;
 }
 
-/* Firefox scrollbar styling - Fallback only */
+/* Firefox scrollbar*/
 * {
   scrollbar-width: thin;
   scrollbar-color: #b19777 #f0ebe4;
 }
 
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.MuiGrid-item {
+  transition: transform 0.2s ease-in-out;
+}
+
+.MuiGrid-item:hover {
+  transform: translateY(-2px);
+}
+
+.widget-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}

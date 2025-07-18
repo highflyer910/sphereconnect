@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Paper,
   Typography,
@@ -7,6 +7,7 @@ import {
   Box,
   IconButton,
   useTheme,
+  Divider,
 } from '@mui/material';
 import { Users, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -15,42 +16,32 @@ const team = [
     name: 'Sarah Martinez',
     role: 'Senior UX Designer',
     department: 'Design Team',
-    achievement:
-      'Led the redesign of our mobile app, resulting in 40% increase in user engagement.',
+    achievement: 'Led the comprehensive redesign of our flagship mobile application, focusing on user-centric design principles and iterative feedback loops. This initiative resulted in a remarkable 40% increase in overall user engagement and a significant improvement in app store ratings, demonstrating a profound impact on our product"s market performance and user satisfaction.',
     avatar: 'https://i.pravatar.cc/150?img=5',
   },
   {
     name: 'Alex Chen',
     role: 'DevOps Engineer',
     department: 'Infrastructure Team',
-    achievement:
-      'Reduced deployment time by 60% through CI/CD automation.',
+    achievement: 'Spearheaded the implementation of advanced CI/CD pipelines and automated deployment strategies across all major projects. This critical infrastructure upgrade successfully reduced our average deployment time by an impressive 60%, drastically improving development velocity and operational efficiency, while also minimizing human error in the release process.',
     avatar: 'https://i.pravatar.cc/150?img=11',
   },
   {
     name: 'Maria Rodriguez',
     role: 'Product Manager',
     department: 'Product Team',
-    achievement:
-      'Launched 3 major features this quarter, exceeding adoption targets.',
+    achievement: 'Successfully launched three major product features this quarter, each exceeding its initial adoption targets by a substantial margin. Her strategic vision and meticulous execution were instrumental in driving these initiatives from concept to market, significantly contributing to the company"s growth and competitive edge in the industry.',
     avatar: 'https://i.pravatar.cc/150?img=23',
   },
 ];
 
 const TeamSpotlightWidget = () => {
   const [index, setIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const theme = useTheme();
 
-  const handleChange = (newIndex) => {
-    if (isAnimating || newIndex === index) return;
-    
-    setIsAnimating(true);
-    setTimeout(() => {
-      setIndex(newIndex);
-      setTimeout(() => setIsAnimating(false), 50);
-    }, 200);
-  };
+  const handleChange = useCallback((newIndex) => {
+    setIndex(newIndex);
+  }, []);
 
   const next = () => handleChange((index + 1) % team.length);
   const prev = () => handleChange((index - 1 + team.length) % team.length);
@@ -59,18 +50,22 @@ const TeamSpotlightWidget = () => {
 
   return (
     <Paper
+      elevation={2}
       sx={{
-        p: 2.5,
-        maxWidth: 350,
-        borderRadius: 3,
-        height: 280,
+        p: 3,
+        borderRadius: 4,
+        bgcolor: 'background.paper',
+        width: '100%',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
-        backgroundColor: theme.palette.background.paper,
-        color: theme.palette.text.primary,
-        transition: 'all 0.3s ease',
+        transition: 'border-color 0.3s ease',
+        '&:hover': {
+          borderColor: theme.palette.primary.main, 
+        },
       }}
+      role="region"
+      aria-labelledby="spotlight-heading"
     >
       <Box
         display="flex"
@@ -79,139 +74,94 @@ const TeamSpotlightWidget = () => {
         mb={2}
       >
         <Typography
+          id="spotlight-heading"
           variant="h6"
-          fontWeight={500}
-          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+          component="h3"
+          sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 600 }}
         >
-          <Users size={18} />
+          <Users size={22} color={theme.palette.primary.main} />
           Team Spotlight
         </Typography>
-
         <Box>
-          <IconButton
-            onClick={prev}
-            size="small"
-            sx={{
-              border: `1px solid ${theme.palette.primary.main}`,
-              color: theme.palette.primary.main,
-              transition: 'all 0.2s ease',
-              '&:hover': {
-                backgroundColor: theme.palette.primary.main,
-                color: theme.palette.getContrastText(theme.palette.primary.main),
-              },
-              mr: 1,
-            }}
-          >
-            <ChevronLeft size={16} />
+          <IconButton onClick={prev} size="small" aria-label="Previous team member">
+            <ChevronLeft size={18} />
           </IconButton>
-          <IconButton
-            onClick={next}
-            size="small"
-            sx={{
-              border: `1px solid ${theme.palette.primary.main}`,
-              color: theme.palette.primary.main,
-              transition: 'all 0.2s ease',
-              '&:hover': {
-                backgroundColor: theme.palette.primary.main,
-                color: theme.palette.getContrastText(theme.palette.primary.main),
-              },
-            }}
-          >
-            <ChevronRight size={16} />
+          <IconButton onClick={next} size="small" aria-label="Next team member">
+            <ChevronRight size={18} />
           </IconButton>
         </Box>
       </Box>
 
-      <Stack
-        direction="row"
-        spacing={2}
-        alignItems="flex-start"
-        sx={{
-          opacity: isAnimating ? 0 : 1,
-          transform: isAnimating ? 'translateY(10px)' : 'translateY(0)',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          flex: 1,
-          minHeight: 120,
-        }}
-      >
-        <Avatar
-          src={member.avatar}
-          alt={member.name}
-          sx={{
-            width: 72,
-            height: 72,
-            border: `3px solid ${theme.palette.primary.main}`,
-            transition: 'all 0.3s ease',
-          }}
-        />
-        <Box sx={{ flex: 1 }}>
-          <Typography 
-            variant="subtitle1" 
-            fontWeight="bold"
-            sx={{ mb: 0.5 }}
-          >
-            {member.name}
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ 
-              color: theme.palette.primary.main, 
-              mb: 0.5,
-              fontWeight: 500,
-            }}
-          >
-            {member.role}
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ 
-              color: theme.palette.text.secondary, 
-              mb: 1,
-              fontSize: '0.875rem',
-            }}
-          >
-            {member.department}
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ 
-              color: theme.palette.text.secondary,
-              lineHeight: 1.4,
-              fontSize: '0.875rem',
-              fontStyle: 'italic',
-            }}
-          >
-            "{member.achievement}"
-          </Typography>
-        </Box>
-      </Stack>
+      <Divider sx={{ mb: 2 }} />
 
-      {/* Simple dot indicators */}
+      <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', overflowY: 'auto' }}>
+        <Stack
+          key={index}
+          direction="row"
+          spacing={2}
+          alignItems="center"
+          sx={{
+            width: '100%',
+            animation: 'fadeIn 0.5s ease-in-out',
+            '@keyframes fadeIn': {
+              '0%': { opacity: 0, transform: 'translateY(10px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' },
+            },
+          }}
+          role="tabpanel"
+          id={`spotlight-panel-${index}`}
+          aria-labelledby={`spotlight-tab-${index}`}
+        >
+          <Avatar
+            src={member.avatar}
+            alt={`Portrait of ${member.name}`}
+            sx={{
+              width: 80,
+              height: 80,
+              border: `3px solid ${theme.palette.primary.main}`,
+            }}
+          />
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="h6" component="h4" sx={{ fontWeight: 'bold' }}>
+              {member.name}
+            </Typography>
+            <Typography variant="body1" sx={{ color: 'primary.main', fontWeight: 500, mb: 1 }}>
+              {member.role}
+            </Typography>
+            <Typography variant="body2" sx={{ color: 'text.secondary', fontStyle: 'italic' }}>
+              “{member.achievement}”
+            </Typography>
+          </Box>
+        </Stack>
+      </Box>
+
       <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: 1,
-          mt: 2,
-        }}
+        sx={{ mt: 'auto', pt: 2, display: 'flex', justifyContent: 'center' }}
+        role="tablist"
+        aria-label="Team member selector"
       >
         {team.map((_, idx) => (
           <Box
             key={idx}
+            role="tab"
+            aria-selected={idx === index}
+            aria-controls={`spotlight-panel-${idx}`}
+            id={`spotlight-tab-${idx}`}
+            tabIndex={0}
+            onClick={() => handleChange(idx)}
+            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleChange(idx)}
             sx={{
-              width: 6,
-              height: 6,
+              width: 8,
+              height: 8,
               borderRadius: '50%',
-              backgroundColor: idx === index 
-                ? theme.palette.primary.main 
-                : theme.palette.text.disabled,
+              bgcolor: idx === index ? 'primary.main' : 'text.disabled',
+              mx: 0.5,
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
+              transition: 'background-color 0.3s ease',
               '&:hover': {
-                backgroundColor: theme.palette.primary.main,
+                bgcolor: 'primary.light',
               },
             }}
-            onClick={() => handleChange(idx)}
           />
         ))}
       </Box>
@@ -219,4 +169,4 @@ const TeamSpotlightWidget = () => {
   );
 };
 
-export default TeamSpotlightWidget;
+export default React.memo(TeamSpotlightWidget);

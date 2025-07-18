@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Paper,
   Box,
@@ -9,8 +9,9 @@ import {
   Fade,
   Avatar,
   IconButton,
+  Divider,
 } from '@mui/material';
-import { MessageSquare, Send, Circle, Moon, Sun } from 'lucide-react';
+import { MessageSquare, Send, Circle } from 'lucide-react';
 
 export default function ChatWidget() {
   const theme = useTheme();
@@ -27,6 +28,9 @@ export default function ChatWidget() {
       { id: 1, sender: 'Sarah M.', text: 'Good morning team! Ready for today\'s sprint?', timestamp: new Date(Date.now() - 300000) },
       { id: 2, sender: 'Alex C.', text: 'Morning! Yes, looking forward to the new features', timestamp: new Date(Date.now() - 240000) },
       { id: 3, sender: 'Maria R.', text: 'The design mockups are ready for review', timestamp: new Date(Date.now() - 180000) },
+      { id: 4, sender: 'You', text: 'Just finished reviewing the latest build. Looks solid!', timestamp: new Date(Date.now() - 120000) },
+      { id: 5, sender: 'Sarah M.', text: 'Great to hear! We are pushing to production by end of day.', timestamp: new Date(Date.now() - 60000) },
+      { id: 6, sender: 'Alex C.', text: 'Awesome! I\'ll be monitoring the deployment.', timestamp: new Date(Date.now() - 30000) },
     ];
   });
   const [inputValue, setInputValue] = useState('');
@@ -36,7 +40,7 @@ export default function ChatWidget() {
     localStorage.setItem('chatMessages', JSON.stringify(messages));
   }, [messages]);
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = useCallback((e) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
@@ -51,9 +55,9 @@ export default function ChatWidget() {
     setInputValue('');
 
     setTimeout(simulateTeamResponse, 1000 + Math.random() * 3000);
-  };
+  }, [inputValue, onlineUsers, messages]);
 
-  const simulateTeamResponse = () => {
+  const simulateTeamResponse = useCallback(() => {
     const responses = [
       'Got it!',
       'Will do.',
@@ -72,7 +76,7 @@ export default function ChatWidget() {
       timestamp: new Date(),
     };
     setMessages((prev) => [...prev, message]);
-  };
+  }, [onlineUsers]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -81,7 +85,7 @@ export default function ChatWidget() {
       }
     }, 30000);
     return () => clearInterval(interval);
-  }, [onlineUsers]);
+  }, [simulateTeamResponse]);
 
   const getInitials = (name) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
@@ -98,12 +102,12 @@ export default function ChatWidget() {
     return colors[index];
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage(e);
     }
-  };
+  }, [handleSendMessage]);
 
   return (
     <Paper
@@ -111,25 +115,21 @@ export default function ChatWidget() {
       sx={{
         p: 0,
         borderRadius: 4,
-        bgcolor: theme.palette.primary.paper,
+        bgcolor: 'background.paper',
         width: '100%',
-        maxWidth: { xs: '100%', md: 350 },
-        mx: { xs: 'auto', md: 0 },
-        mt: { xs: 2, md: 2 },
-        minHeight: 400,
-        maxHeight: '80vh',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
       }}
+      role="region"
       aria-labelledby="chat-widget-heading"
     >
-      {/* Header */}
       <Box 
         sx={{ 
           p: 2.5, 
-          bgcolor: theme.palette.primary.paper,
-          borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+          bgcolor: 'background.paper',
+          borderBottom: `1px solid ${theme.palette.divider}`,
           borderTopLeftRadius: 4,
           borderTopRightRadius: 4,
         }}
@@ -138,6 +138,7 @@ export default function ChatWidget() {
           <Typography
             id="chat-widget-heading"
             variant="h6"
+            component="h3"
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -147,7 +148,7 @@ export default function ChatWidget() {
               fontSize: '1.1rem',
             }}
           >
-            <MessageSquare size={22} color={theme.primary} />
+            <MessageSquare size={22} color={theme.palette.primary.main} />
             Team Chat
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -155,6 +156,7 @@ export default function ChatWidget() {
               size={10} 
               color={theme.palette.primary.main} 
               fill={theme.palette.primary.main} 
+              aria-hidden="true"
             />
             <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
               {onlineUsers.length} online
@@ -163,7 +165,8 @@ export default function ChatWidget() {
         </Box>
       </Box>
 
-      {/* Messages Area */}
+      <Divider sx={{ my: 0 }} /> 
+
       <Box
         sx={{
           flex: 1,
@@ -173,6 +176,7 @@ export default function ChatWidget() {
           flexDirection: 'column',
           gap: 2,
           bgcolor: 'background.default',
+         
           '&::-webkit-scrollbar': {
             width: '10px',
           },
@@ -205,11 +209,14 @@ export default function ChatWidget() {
                 sx={{
                   width: 36,
                   height: 36,
-                  bgcolor: msg.sender === 'You' ? theme.palette.primary.main : getAvatarColor(msg.sender),
+                  bgcolor: msg.sender === 'You' 
+                    ? theme.palette.primary.main 
+                    : getAvatarColor(msg.sender),
                   fontSize: '0.8rem',
                   fontWeight: 600,
                   color: '#fff',
                 }}
+                aria-label={msg.sender}
               >
                 {getInitials(msg.sender)}
               </Avatar>
@@ -225,8 +232,11 @@ export default function ChatWidget() {
                   p: 1.5,
                   maxWidth: '85%',
                   position: 'relative',
-                  border: '1px solid rgba(0, 0, 0, 0.1)',
-                  boxShadow: theme.palette.mode === 'dark' ? 'none' : '0 1px 3px rgba(0,0,0,0.1)',
+                  border: `1px solid ${theme.palette.divider}`,
+                  transition: 'border-color 0.3s ease', 
+                  '&:hover': {
+                    borderColor: theme.palette.primary.main,
+                  },
                   '&::before': msg.sender === 'You' ? {
                     content: '""',
                     position: 'absolute',
@@ -287,12 +297,11 @@ export default function ChatWidget() {
         ))}
       </Box>
 
-      {/* Input Area */}
       <Box 
         sx={{ 
           p: 2.5, 
-          bgcolor: 'theme.palette.primary.paper',
-          borderTop: '1px solid rgba(0, 0, 0, 0.1)',
+          bgcolor: 'background.paper',
+          borderTop: `1px solid ${theme.palette.divider}`,
           borderBottomLeftRadius: 4,
           borderBottomRightRadius: 4,
         }}
@@ -312,7 +321,7 @@ export default function ChatWidget() {
                 bgcolor: 'background.default',
                 fontSize: '0.9rem',
                 '& fieldset': {
-                  borderColor: 'rgba(0, 0, 0, 0.1)',
+                  borderColor: theme.palette.divider,
                 },
                 '&:hover fieldset': {
                   borderColor: theme.palette.primary.main,
@@ -344,7 +353,7 @@ export default function ChatWidget() {
               py: 1,
               bgcolor: theme.palette.primary.main,
               '&:hover': {
-                bgcolor: theme.palette.secondary.main,
+                bgcolor: theme.palette.primary.dark,
               },
               '&:disabled': {
                 bgcolor: theme.palette.action.disabledBackground,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Paper,
   Typography,
@@ -13,6 +13,7 @@ import {
   Card,
   CardContent,
   useTheme,
+  Divider,
 } from '@mui/material';
 import {
   CalendarCheck,
@@ -133,7 +134,7 @@ const resources = [
               fullWidth
               multiline
               rows={2}
-              sx={{ '& .MuiOutlinedInput.root': { borderRadius: 4 } }}
+              sx={{ '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
             />
           </Box>
         </Box>
@@ -354,12 +355,11 @@ const resources = [
   },
 ];
 
-export default function QuickResourcesWidget() {
+function QuickResourcesWidget() {
   const [open, setOpen] = useState(false);
   const [activeKey, setActiveKey] = useState(null);
   const theme = useTheme();
 
-  // Timer state
   const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const timerRef = useRef(null);
@@ -423,13 +423,15 @@ export default function QuickResourcesWidget() {
     <Paper
       elevation={2}
       sx={{
-        p: 2,
+        p: 3,
         borderRadius: 4,
-        bgcolor: theme.palette.background.paper,
+        bgcolor: 'theme.palette.background.paper',
         width: '100%',
-        maxWidth: { xs: '100%', md: 350 },
+        maxWidth: { xs: '100%', md: 450 },
         mx: { xs: 'auto', md: 0 },
-        mt: { xs: 2, md: 2 },
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
       }}
       aria-labelledby="quick-resources-heading"
     >
@@ -445,11 +447,13 @@ export default function QuickResourcesWidget() {
             fontWeight: 600,
           }}
         >
-          <Rocket size={20} />
+          <Rocket size={20} color={theme.palette.primary.main} />
           Quick Access
         </Typography>
         <Box sx={{ width: '100%', height: '2px' }} />
       </Box>
+
+      <Divider sx={{ mb: 2 }} />
 
       <Box
   sx={{
@@ -457,6 +461,7 @@ export default function QuickResourcesWidget() {
     flexWrap: 'wrap',
     gap: 1,
     justifyContent: 'center',
+    flex: 1,
   }}
 >
   {resources.map((res, i) => (
@@ -537,3 +542,5 @@ export default function QuickResourcesWidget() {
     </Paper>
   );
 }
+
+export default React.memo(QuickResourcesWidget);

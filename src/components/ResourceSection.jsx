@@ -1,30 +1,31 @@
 import { Box, Typography, Grid, Card, CardMedia, CardContent, CardActionArea, Chip } from '@mui/material';
 import { BookOpen } from 'lucide-react';
 import { useTheme } from '@mui/material/styles';
+import React from 'react';
 
 const blogPosts = [
   {
     title: 'Deploy Your FastAPI App on Vercel: The Complete Guide',
-    img: 'https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fcbsyoae8fiav56ocizm9.png',
-    url: 'https://dev.to/highflyer910/deploy-your-fastapi-app-on-vercel-the-complete-guide-27c0',
+    img: 'https://media2.dev.to/dynamic/image/width=1000 ,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fcbsyoae8fiav56ocizm9.png',
+    url: 'https://dev.to/highflyer910/deploy-your-fastapi-app-on-vercel-the-complete-guide-27c0 ',
     tag: 'FastAPI',
   },
   {
     title: 'Common Web Security Attacks and Top Tips to Protect Your Website',
-    img: 'https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-Uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fitgbwfnpo7hl549we1sb.jpg',
-    url: 'https://dev.to/highflyer910/common-web-security-attacks-and-top-tips-to-protect-your-website-16jo',
+    img: 'https://media2.dev.to/dynamic/image/width=1000 ,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fitgbwfnpo7hl549we1sb.jpg',
+    url: 'https://dev.to/highflyer910/common-web-security-attacks-and-top-tips-to-protect-your-website-16jo ',
     tag: 'Web Security',
   },
   {
     title: 'Python data structures (lists, tuples, dictionaries, sets)',
-    img: 'https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-Uploads.s3.amazonaws.com%2Fi%2Fpdk09voppbn4lato43dp.png',
-    url: 'https://dev.to/highflyer910/python-data-structures-lists-tuples-dictionaries-sets-3epc',
+    img: 'https://media2.dev.to/dynamic/image/width=1400 ,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fi%2Fpdk09voppbn4lato43dp.png',
+    url: 'https://dev.to/highflyer910/python-data-structures-lists-tuples-dictionaries-sets-3epc ',
     tag: 'Python',
   },
   {
     title: 'Unlocking Web Accessibility: Tips for Developers',
-    img: 'https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-Uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F98n25dgnbm6fr45d3hvo.png',
-    url: 'https://dev.to/highflyer910/unlocking-web-accessibility-tips-for-developers-d6l',
+    img: 'https://media2.dev.to/dynamic/image/width=1400 ,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F98n25dgnbm6fr45d3hvo.png',
+    url: 'https://dev.to/highflyer910/unlocking-web-accessibility-tips-for-developers-d6l ',
     tag: 'Accessibility',
   },
 ];
@@ -37,6 +38,7 @@ const ResourcesSection = () => {
       <Box sx={{ mb: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
         <Typography
           variant="h5"
+          component="h2"
           sx={{
             fontWeight: 600,
             display: 'flex',
@@ -62,16 +64,20 @@ const ResourcesSection = () => {
           <Grid item xs={12} sm={6} md={3} key={idx}>
             <Card
               sx={{
-                width: '100%',
-                maxWidth: { xs: '100%', sm: 360, md: 290 },
-                minHeight: 260,
-                borderRadius: 3,
                 display: 'flex',
                 flexDirection: 'column',
+                width: '100%',
+                maxWidth: { xs: '100%', sm: 360, md: 290 },
+                height: '100%',
+                minHeight: 320,
+                borderRadius: 3,
+                boxShadow: 1,
                 transition: 'all 0.3s ease',
                 '&:hover': {
-                  boxShadow: theme.shadows[3],
+                  boxShadow: 4,
+                  transform: 'translateY(-4px)',
                 },
+                overflow: 'hidden',
               }}
             >
               <CardActionArea
@@ -79,20 +85,22 @@ const ResourcesSection = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
-                  flex: 1,
                   display: 'flex',
                   flexDirection: 'column',
+                  height: '100%',
                 }}
               >
                 <CardMedia
                   component="img"
-                  height="120"
+                  height="140"
                   image={post.img}
                   alt={post.title}
                   sx={{
                     objectFit: 'cover',
                     transition: 'transform 0.3s ease',
-                    '&:hover': { transform: 'scale(1.05)' },
+                    '&:hover': {
+                      transform: 'scale(1.05)',
+                    },
                   }}
                 />
                 <CardContent
@@ -101,8 +109,7 @@ const ResourcesSection = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    p: 1.5,
-                    pt: 1,
+                    p: 2,
                   }}
                 >
                   <Typography
@@ -110,14 +117,12 @@ const ResourcesSection = () => {
                     component="div"
                     sx={{
                       fontWeight: 500,
-                      lineHeight: 1.3,
                       flexGrow: 1,
                       display: '-webkit-box',
                       WebkitLineClamp: 3,
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden',
-                      mb: 1,
-                      minHeight: '56px',
+                      mb: 1.5,
                       color: theme.palette.text.primary,
                     }}
                   >
@@ -129,12 +134,9 @@ const ResourcesSection = () => {
                     color="primary"
                     sx={{
                       alignSelf: 'flex-start',
-                      fontSize: '0.75rem',
                       fontWeight: 500,
                       bgcolor: theme.palette.primary.main,
-                      color: 'white',
-                      mb: 0.75,
-                      ml: 0.75,
+                      color: '#fff',
                     }}
                   />
                 </CardContent>
@@ -147,4 +149,4 @@ const ResourcesSection = () => {
   );
 };
 
-export default ResourcesSection;
+export default React.memo(ResourcesSection);
