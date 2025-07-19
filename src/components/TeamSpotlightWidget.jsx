@@ -59,10 +59,6 @@ const TeamSpotlightWidget = () => {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        transition: 'border-color 0.3s ease',
-        '&:hover': {
-          borderColor: theme.palette.primary.main, 
-        },
       }}
       role="region"
       aria-labelledby="spotlight-heading"

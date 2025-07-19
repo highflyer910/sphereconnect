@@ -6,13 +6,13 @@ import React from 'react';
 const blogPosts = [
   {
     title: 'Deploy Your FastAPI App on Vercel: The Complete Guide',
-    img: 'https://media2.dev.to/dynamic/image/width=1000 ,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fcbsyoae8fiav56ocizm9.png',
+    img: 'https://media2.dev.to/dynamic/image/width=1400 ,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fcbsyoae8fiav56ocizm9.png',
     url: 'https://dev.to/highflyer910/deploy-your-fastapi-app-on-vercel-the-complete-guide-27c0 ',
     tag: 'FastAPI',
   },
   {
-    title: 'Common Web Security Attacks and Top Tips to Protect Your Website',
-    img: 'https://media2.dev.to/dynamic/image/width=1000 ,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fitgbwfnpo7hl549we1sb.jpg',
+    title: 'Common Web Security Attacks. Protect Your Website',
+    img: 'https://media2.dev.to/dynamic/image/width=1400 ,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fitgbwfnpo7hl549we1sb.jpg',
     url: 'https://dev.to/highflyer910/common-web-security-attacks-and-top-tips-to-protect-your-website-16jo ',
     tag: 'Web Security',
   },
@@ -92,7 +92,7 @@ const ResourcesSection = () => {
               >
                 <CardMedia
                   component="img"
-                  height="140"
+                  height="170"
                   image={post.img}
                   alt={post.title}
                   sx={{

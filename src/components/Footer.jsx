@@ -192,7 +192,7 @@ export default function Footer() {
               textAlign: 'center'
             }}
           >
-            © 2025 SphereConnect. All rights reserved.
+            © 2025 SphereConnect
           </Typography>
         </Box>
       </Container>

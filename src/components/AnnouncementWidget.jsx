@@ -48,7 +48,6 @@ const AnnouncementsWidget = () => {
       role="region"
       aria-labelledby="announcements-heading"
     >
-      {/* Widget Header */}
       <Box
         sx={{
           display: 'flex',

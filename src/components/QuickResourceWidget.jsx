@@ -427,7 +427,7 @@ function QuickResourcesWidget() {
         borderRadius: 4,
         bgcolor: 'theme.palette.background.paper',
         width: '100%',
-        maxWidth: { xs: '100%', md: 450 },
+        maxWidth: { xs: '100%', md: 550 },
         mx: { xs: 'auto', md: 0 },
         height: '100%',
         display: 'flex',

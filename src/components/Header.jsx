@@ -46,7 +46,6 @@ export default function Header({ onChatClick }) {
     return () => clearInterval(chatInterval);
   }, []);
 
-  // Handle Profile Menu
   const handleProfileClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -77,18 +76,157 @@ export default function Header({ onChatClick }) {
       sx={{
         bgcolor: 'background.paper',
         borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-        px: { xs: 2, sm: 3 },
+        px: { xs: 1, sm: 3 },
         top: 0,
         zIndex: 1100,
       }}
       elevation={0}
     >
+      <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            py: 1.5,
+            px: 1,
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 600,
+              color: 'primary.main',
+              fontSize: '1.5rem',
+            }}
+          >
+            ◉◉ SphereConnect
+          </Typography>
+          <Box
+            sx={{
+              width: '100%',
+              height: '2px',
+              background: `linear-gradient(90deg, ${muiTheme.palette.primary.main}, ${muiTheme.palette.secondary.main})`,
+              borderRadius: '1px',
+              my: 0.5,
+            }}
+          />
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'text.secondary',
+              fontStyle: 'italic',
+              fontSize: '0.75rem',
+            }}
+          >
+            Where teams connect, grow, and flow
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            px: 1,
+            pb: 1.5,
+            gap: 1,
+          }}
+        >
+          {/* search box */}
+          <Paper
+            component="form"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flex: 1,
+              maxWidth: '200px',
+              px: 1,
+              py: 0.25,
+              backgroundColor: alpha(muiTheme.palette.background.paper, 0.8),
+              border: `1px solid ${muiTheme.palette.divider}`,
+              borderRadius: 3,
+            }}
+          >
+            <Search size={16} style={{ marginRight: 4, color: muiTheme.palette.text.secondary }} />
+            <InputBase
+              placeholder="Search..."
+              fullWidth
+              sx={{ 
+                color: muiTheme.palette.text.primary, 
+                fontSize: '0.8rem',
+                '& input': {
+                  padding: '2px 0',
+                }
+              }}
+            />
+          </Paper>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            {/* theme toggle */}
+            <IconButton
+              size="small"
+              aria-label="toggle theme"
+              onClick={toggleTheme}
+              sx={{ color: muiTheme.palette.text.primary }}
+            >
+              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+            </IconButton>
+
+            {/* notifications */}
+            <IconButton
+              size="small"
+              aria-label="notifications"
+              onClick={handleNotifClick}
+              sx={{ color: muiTheme.palette.text.primary }}
+            >
+              <Badge badgeContent={notificationCount > 9 ? '9+' : notificationCount} color="primary">
+                <Bell size={18} />
+              </Badge>
+            </IconButton>
+
+            {/* chat */}
+            <IconButton
+              size="small"
+              aria-label="Team chat"
+              onClick={handleChatClick}
+              sx={{ color: muiTheme.palette.text.primary }}
+            >
+              <Badge badgeContent={chatCount > 9 ? '9+' : chatCount} color="primary">
+                <MessageSquare size={18} />
+              </Badge>
+            </IconButton>
+
+            {/* user */}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.5,
+                cursor: 'pointer',
+                ml: 0.5,
+              }}
+              onClick={handleProfileClick}
+            >
+              <Avatar
+                alt="Anita Hooper"
+                src="https://i.pravatar.cc/60?img=26"
+                sx={{ width: 26, height: 26 }}
+              />
+              <ChevronDown size={14} style={{ color: muiTheme.palette.text.primary }} />
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* large screen*/}
       <Toolbar
         sx={{
-          minHeight: { xs: 80, sm: 96 },
-          display: 'flex',
+          display: { xs: 'none', md: 'flex' },
+          minHeight: 96,
           justifyContent: 'space-between',
           alignItems: 'center',
+          mt: 3,
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 0.5 }}>
@@ -97,7 +235,7 @@ export default function Header({ onChatClick }) {
             sx={{
               fontWeight: 600,
               color: 'primary.main',
-              fontSize: { xs: '1.8rem', sm: '2rem' },
+              fontSize: '2rem',
             }}
           >
             ◉◉ SphereConnect
@@ -116,7 +254,7 @@ export default function Header({ onChatClick }) {
             sx={{
               color: 'text.secondary',
               fontStyle: 'italic',
-              fontSize: { xs: '0.75rem', sm: '0.875rem' },
+              fontSize: '0.875rem',
             }}
           >
             Where teams connect, grow, and flow
@@ -126,9 +264,9 @@ export default function Header({ onChatClick }) {
         <Paper
           component="form"
           sx={{
-            display: { xs: 'none', sm: 'flex' },
+            display: 'flex',
             alignItems: 'center',
-            width: { xs: '40%', sm: 250, md: 350 },
+            width: { md: 300, lg: 350 },
             px: 2,
             py: 0.5,
             backgroundColor: alpha(muiTheme.palette.background.paper, 0.8),
@@ -144,8 +282,8 @@ export default function Header({ onChatClick }) {
           />
         </Paper>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1.5 } }}>
-          {/* Theme Toggle */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          {/* theme toggle */}
           <IconButton
             aria-label="toggle theme"
             onClick={toggleTheme}
@@ -154,7 +292,7 @@ export default function Header({ onChatClick }) {
             {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
           </IconButton>
 
-          {/* Notifications */}
+          {/* notifications */}
           <IconButton
             aria-label="notifications"
             onClick={handleNotifClick}
@@ -165,40 +303,9 @@ export default function Header({ onChatClick }) {
             </Badge>
           </IconButton>
 
-          {/* Notification Menu */}
-          <Menu
-            anchorEl={notifAnchorEl}
-            open={Boolean(notifAnchorEl)}
-            onClose={handleNotifClose}
-            disableScrollLock={true}
-            PaperProps={{
-              sx: { borderRadius: 4, bgcolor: 'background.paper' },
-            }}
-          >
-            <MenuItem
-              onClick={handleNotifClose}
-              sx={{ color: muiTheme.palette.text.primary, fontSize: '0.9rem' }}
-            >
-              Sarah replied to your design comment.
-            </MenuItem>
-            <MenuItem
-              onClick={handleNotifClose}
-              sx={{ color: muiTheme.palette.text.primary, fontSize: '0.9rem' }}
-            >
-              Team Standup starts in 15 minutes.
-            </MenuItem>
-            <MenuItem
-              onClick={handleNotifClose}
-              sx={{ color: muiTheme.palette.text.primary, fontSize: '0.9rem' }}
-            >
-              ⚙️ System Maintenance at 8 PM.
-            </MenuItem>
-          </Menu>
-
-          {/* Chat */}
+          {/* chat */}
           <IconButton
             aria-label="Team chat"
-            aria-controls="chat-widget-heading"
             onClick={handleChatClick}
             sx={{ color: muiTheme.palette.text.primary }}
           >
@@ -207,13 +314,13 @@ export default function Header({ onChatClick }) {
             </Badge>
           </IconButton>
 
-          {/* Profile */}
+          {/* user */}
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: { xs: 0.5, sm: 1 },
-              ml: { xs: 1, sm: 2 },
+              gap: 1,
+              ml: 2,
               cursor: 'pointer',
             }}
             onClick={handleProfileClick}
@@ -221,48 +328,146 @@ export default function Header({ onChatClick }) {
             <Avatar
               alt="Anita Hooper"
               src="https://i.pravatar.cc/60?img=26"
-              sx={{ width: { xs: 28, sm: 32 }, height: { xs: 28, sm: 32 } }}
+              sx={{ width: 32, height: 32 }}
             />
             <Typography
               variant="body2"
               sx={{
                 fontWeight: 500,
                 color: muiTheme.palette.text.primary,
-                fontSize: { xs: '0.8rem', sm: '0.875rem' },
-                display: { xs: 'none', sm: 'block' },
+                fontSize: '0.875rem',
               }}
             >
               Anita Hooper
             </Typography>
-            <ChevronDown
-              size={18}
-              style={{ color: muiTheme.palette.text.primary }}
-              sx={{ display: { xs: 'none', sm: 'block' } }}
-            />
+            <ChevronDown size={18} style={{ color: muiTheme.palette.text.primary }} />
           </Box>
-
-          {/* Profile Menu */}
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleProfileClose}
-            disableScrollLock={true}
-            PaperProps={{
-              sx: { borderRadius: 4, bgcolor: 'background.paper' },
-            }}
-          >
-            <MenuItem sx={{ color: muiTheme.palette.text.primary, fontSize: '0.9rem' }}>
-              View Profile
-            </MenuItem>
-            <MenuItem sx={{ color: muiTheme.palette.text.primary, fontSize: '0.9rem' }}>
-              Account Settings
-            </MenuItem>
-            <MenuItem sx={{ color: muiTheme.palette.text.primary, fontSize: '0.9rem' }}>
-              Log Out
-            </MenuItem>
-          </Menu>
         </Box>
       </Toolbar>
+
+      {/* notifications */}
+      <Menu
+        anchorEl={notifAnchorEl}
+        open={Boolean(notifAnchorEl)}
+        onClose={handleNotifClose}
+        disableScrollLock={true}
+        PaperProps={{
+          sx: { borderRadius: 4, bgcolor: 'background.paper' },
+        }}
+      >
+        <MenuItem
+          onClick={handleNotifClose}
+          sx={{ color: muiTheme.palette.text.primary, fontSize: '0.9rem' }}
+        >
+          Sarah replied to your design comment.
+        </MenuItem>
+        <MenuItem
+          onClick={handleNotifClose}
+          sx={{ color: muiTheme.palette.text.primary, fontSize: '0.9rem' }}
+        >
+          Team Standup starts in 15 minutes.
+        </MenuItem>
+        <MenuItem
+          onClick={handleNotifClose}
+          sx={{ color: muiTheme.palette.text.primary, fontSize: '0.9rem' }}
+        >
+          ⚙️ System Maintenance at 8 PM.
+        </MenuItem>
+      </Menu>
+
+      {/* user */}
+            <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleProfileClose}
+        disableScrollLock={true}
+        PaperProps={{
+          sx: { 
+            borderRadius: 4, 
+            bgcolor: 'background.paper',
+            minWidth: 220,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+          },
+        }}
+      >
+        {/* user info*/}
+        <Box
+          sx={{
+            px: 2,
+            py: 2,
+            borderBottom: `1px solid ${muiTheme.palette.divider}`,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
+          }}
+        >
+          
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.2 }}>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: 600,
+                color: muiTheme.palette.text.primary,
+                fontSize: '0.95rem',
+                lineHeight: 1.4,
+              }}
+            >
+              Anita
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: muiTheme.palette.text.secondary,
+                fontSize: '0.8rem',
+                lineHeight: 1.2,
+              }}
+            >
+              Software Engineer
+            </Typography>
+          </Box>
+        </Box>
+
+        <MenuItem 
+          onClick={handleProfileClose}
+          sx={{ 
+            color: muiTheme.palette.text.primary, 
+            fontSize: '0.9rem',
+            py: 1,
+            '&:hover': {
+              bgcolor: alpha(muiTheme.palette.primary.main, 0.08),
+            }
+          }}
+        >
+          View Profile
+        </MenuItem>
+        <MenuItem 
+          onClick={handleProfileClose}
+          sx={{ 
+            color: muiTheme.palette.text.primary, 
+            fontSize: '0.9rem',
+            py: 1,
+            '&:hover': {
+              bgcolor: alpha(muiTheme.palette.primary.main, 0.08),
+            }
+          }}
+        >
+          Account Settings
+        </MenuItem>
+        <MenuItem 
+          onClick={handleProfileClose}
+          sx={{ 
+            color: muiTheme.palette.text.primary, 
+            fontSize: '0.9rem',
+            py: 1,
+            '&:hover': {
+              bgcolor: alpha(muiTheme.palette.primary.main, 0.08),
+            }
+          }}
+        >
+          Log Out
+        </MenuItem>
+      </Menu>
+
     </AppBar>
   );
 }

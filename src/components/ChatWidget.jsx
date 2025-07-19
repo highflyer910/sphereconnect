@@ -8,15 +8,16 @@ import {
   useTheme,
   Fade,
   Avatar,
-  IconButton,
-  Divider,
+  ToggleButtonGroup,
+  ToggleButton,
 } from '@mui/material';
-import { MessageSquare, Send, Circle } from 'lucide-react';
+import { MessageSquare, Send, Circle, Bot } from 'lucide-react';
 
-export default function ChatWidget() {
+export default function ChatWidget({ setIsChatOpen }) {
   const theme = useTheme();
-  const [messages, setMessages] = useState(() => {
-    const saved = localStorage.getItem('chatMessages');
+  const [mode, setMode] = useState('team');
+  const [teamMessages, setTeamMessages] = useState(() => {
+    const saved = localStorage.getItem('teamChatMessages');
     if (saved) {
       const parsed = JSON.parse(saved);
       return parsed.map((msg) => ({
@@ -28,34 +29,35 @@ export default function ChatWidget() {
       { id: 1, sender: 'Sarah M.', text: 'Good morning team! Ready for today\'s sprint?', timestamp: new Date(Date.now() - 300000) },
       { id: 2, sender: 'Alex C.', text: 'Morning! Yes, looking forward to the new features', timestamp: new Date(Date.now() - 240000) },
       { id: 3, sender: 'Maria R.', text: 'The design mockups are ready for review', timestamp: new Date(Date.now() - 180000) },
-      { id: 4, sender: 'You', text: 'Just finished reviewing the latest build. Looks solid!', timestamp: new Date(Date.now() - 120000) },
-      { id: 5, sender: 'Sarah M.', text: 'Great to hear! We are pushing to production by end of day.', timestamp: new Date(Date.now() - 60000) },
-      { id: 6, sender: 'Alex C.', text: 'Awesome! I\'ll be monitoring the deployment.', timestamp: new Date(Date.now() - 30000) },
+    ];
+  });
+  const [assistantMessages, setAssistantMessages] = useState(() => {
+    const saved = localStorage.getItem('assistantChatMessages');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      return parsed.map((msg) => ({
+        ...msg,
+        timestamp: new Date(msg.timestamp),
+      }));
+    }
+    return [
+      { id: 0, sender: 'AI Assistant', text: 'Hi, I\'m your Assistant! Ask me about passwords, holidays, or IT support.', timestamp: new Date() },
     ];
   });
   const [inputValue, setInputValue] = useState('');
   const [onlineUsers] = useState(['You', 'Sarah M.', 'Alex C.', 'Maria R.']);
+  const [unseenMessages, setUnseenMessages] = useState(0);
 
-  useEffect(() => {
-    localStorage.setItem('chatMessages', JSON.stringify(messages));
-  }, [messages]);
-
-  const handleSendMessage = useCallback((e) => {
-    e.preventDefault();
-    if (!inputValue.trim()) return;
-
-    const newMessage = {
-      id: Date.now(),
-      sender: 'You',
-      text: inputValue.trim(),
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, newMessage]);
-    setInputValue('');
-
-    setTimeout(simulateTeamResponse, 1000 + Math.random() * 3000);
-  }, [inputValue, onlineUsers, messages]);
+  // data for assistant
+  const faqResponses = [
+    { keywords: ['reset password', 'password'], response: 'To reset your password, visit the IT Support section and follow the "Reset Password" guide.' },
+    { keywords: ['holiday', 'vacation'], response: 'Check the HR Portal for the company holiday schedule.' },
+    { keywords: ['leave request', 'time off'], response: 'Submit a leave request via the HR Portal under "Request Leave".' },
+    { keywords: ['onboarding', 'new hire'], response: 'New hires can find onboarding guides in the Knowledge Base.' },
+    { keywords: ['it support', 'tech issue'], response: 'Submit an IT ticket in the IT Support section or chat with the IT team.' },
+    { keywords: ['training', 'course'], response: 'Explore training materials in the Resources section.' },
+    { default: true, response: 'Sorry, I didn\'t catch that! Try asking about passwords, holidays, or IT support.' },
+  ];
 
   const simulateTeamResponse = useCallback(() => {
     const responses = [
@@ -75,17 +77,67 @@ export default function ChatWidget() {
       text: responses[Math.floor(Math.random() * responses.length)],
       timestamp: new Date(),
     };
-    setMessages((prev) => [...prev, message]);
-  }, [onlineUsers]);
+    setTeamMessages((prev) => [...prev, message]);
+    
+    if (setIsChatOpen === false) {
+      setUnseenMessages((prev) => prev + 1);
+    }
+  }, [onlineUsers, setIsChatOpen]);
+
+  useEffect(() => {
+    localStorage.setItem('teamChatMessages', JSON.stringify(teamMessages));
+  }, [teamMessages]);
+
+  useEffect(() => {
+    localStorage.setItem('assistantChatMessages', JSON.stringify(assistantMessages));
+  }, [assistantMessages]);
+
+  useEffect(() => {
+    if (setIsChatOpen !== false) {
+      setUnseenMessages(0);
+    }
+  }, [setIsChatOpen]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (Math.random() < 0.1) {
+      if (Math.random() < 0.1 && mode === 'team') {
         simulateTeamResponse();
       }
     }, 30000);
     return () => clearInterval(interval);
-  }, [simulateTeamResponse]);
+  }, [mode, simulateTeamResponse]);
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (!inputValue.trim()) return;
+
+    const newMessage = {
+      id: Date.now(),
+      sender: 'You',
+      text: inputValue.trim(),
+      timestamp: new Date(),
+    };
+
+    if (mode === 'team') {
+      setTeamMessages((prev) => [...prev, newMessage]);
+      setTimeout(simulateTeamResponse, 1000 + Math.random() * 3000);
+    } else {
+      const inputLower = inputValue.toLowerCase().trim();
+      const faq = faqResponses.find((item) => 
+        item.default || item.keywords.some((keyword) => inputLower.includes(keyword))
+      );
+      const botMessage = {
+        id: Date.now() + 1,
+        sender: 'AI Assistant',
+        text: faq.response,
+        timestamp: new Date(),
+      };
+      setAssistantMessages((prev) => [...prev, newMessage, botMessage]);
+    }
+
+    setInputValue('');
+    setUnseenMessages(0);
+  };
 
   const getInitials = (name) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
@@ -102,12 +154,28 @@ export default function ChatWidget() {
     return colors[index];
   };
 
-  const handleKeyPress = useCallback((e) => {
+  const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage(e);
     }
-  }, [handleSendMessage]);
+  };
+
+  const handleModeChange = (event, newMode) => {
+    if (newMode) {
+      setMode(newMode);
+      if (newMode === 'assistant' && assistantMessages.length === 0) {
+        setAssistantMessages([
+          {
+            id: 0,
+            sender: 'AI Assistant',
+            text: 'Hi, I\'m your Assistant! Ask me about passwords, holidays, or IT support.',
+            timestamp: new Date(),
+          },
+        ]);
+      }
+    }
+  };
 
   return (
     <Paper
@@ -115,21 +183,21 @@ export default function ChatWidget() {
       sx={{
         p: 0,
         borderRadius: 4,
-        bgcolor: 'background.paper',
         width: '100%',
-        height: '100%',
+        maxWidth: { xs: '100%', sm: 350 },
+        minHeight: 400,
+        maxHeight: '80vh',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
       }}
-      role="region"
       aria-labelledby="chat-widget-heading"
     >
       <Box 
         sx={{ 
           p: 2.5, 
           bgcolor: 'background.paper',
-          borderBottom: `1px solid ${theme.palette.divider}`,
+          borderBottom: '1px solid rgba(0,0,0,0.1)',
           borderTopLeftRadius: 4,
           borderTopRightRadius: 4,
         }}
@@ -138,7 +206,6 @@ export default function ChatWidget() {
           <Typography
             id="chat-widget-heading"
             variant="h6"
-            component="h3"
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -148,24 +215,57 @@ export default function ChatWidget() {
               fontSize: '1.1rem',
             }}
           >
-            <MessageSquare size={22} color={theme.palette.primary.main} />
-            Team Chat
+            {mode === 'team' ? (
+              <>
+                <MessageSquare size={22} color={theme.palette.primary.main} />
+                Team Chat
+              </>
+            ) : (
+              <>
+                <Bot size={22} color={theme.palette.primary.main} />
+                AI Assistant
+              </>
+            )}
           </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Circle 
-              size={10} 
-              color={theme.palette.primary.main} 
-              fill={theme.palette.primary.main} 
-              aria-hidden="true"
-            />
-            <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
-              {onlineUsers.length} online
-            </Typography>
-          </Box>
+          {mode === 'team' && (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Circle 
+                size={10} 
+                color={theme.palette.primary.main} 
+                fill={theme.palette.primary.main} 
+              />
+              <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
+                {onlineUsers.length} online
+                {unseenMessages > 0 && (
+                  <span style={{ 
+                    marginLeft: 8, 
+                    background: theme.palette.error.main, 
+                    color: 'white', 
+                    borderRadius: '50%', 
+                    padding: '2px 6px', 
+                    fontSize: '0.7rem' 
+                  }}>
+                    {unseenMessages}
+                  </span>
+                )}
+              </Typography>
+            </Box>
+          )}
         </Box>
+        <ToggleButtonGroup
+          value={mode}
+          exclusive
+          onChange={handleModeChange}
+          sx={{ mt: 1 }}
+        >
+          <ToggleButton value="team" sx={{ textTransform: 'none', fontSize: '0.8rem' }}>
+            Team Chat
+          </ToggleButton>
+          <ToggleButton value="assistant" sx={{ textTransform: 'none', fontSize: '0.8rem' }}>
+            AI Assistant
+          </ToggleButton>
+        </ToggleButtonGroup>
       </Box>
-
-      <Divider sx={{ my: 0 }} /> 
 
       <Box
         sx={{
@@ -176,7 +276,6 @@ export default function ChatWidget() {
           flexDirection: 'column',
           gap: 2,
           bgcolor: 'background.default',
-         
           '&::-webkit-scrollbar': {
             width: '10px',
           },
@@ -195,7 +294,7 @@ export default function ChatWidget() {
         }}
         aria-live="polite"
       >
-        {messages.map((msg) => (
+        {(mode === 'team' ? teamMessages : assistantMessages).map((msg) => (
           <Fade in key={msg.id} timeout={300}>
             <Box
               sx={{
@@ -209,35 +308,31 @@ export default function ChatWidget() {
                 sx={{
                   width: 36,
                   height: 36,
-                  bgcolor: msg.sender === 'You' 
+                  bgcolor: msg.sender === 'You' || msg.sender === 'AI Assistant' 
                     ? theme.palette.primary.main 
                     : getAvatarColor(msg.sender),
                   fontSize: '0.8rem',
                   fontWeight: 600,
                   color: '#fff',
                 }}
-                aria-label={msg.sender}
               >
-                {getInitials(msg.sender)}
+                {msg.sender === 'AI Assistant' ? <Bot size={18} /> : getInitials(msg.sender)}
               </Avatar>
               <Box
                 sx={{
-                  bgcolor: msg.sender === 'You' 
+                  bgcolor: msg.sender === 'You' || msg.sender === 'AI Assistant' 
                     ? theme.palette.primary.main 
                     : 'background.paper',
-                  color: msg.sender === 'You' 
+                  color: msg.sender === 'You' || msg.sender === 'AI Assistant' 
                     ? '#fff'
                     : 'text.primary',
                   borderRadius: 4,
                   p: 1.5,
                   maxWidth: '85%',
                   position: 'relative',
-                  border: `1px solid ${theme.palette.divider}`,
-                  transition: 'border-color 0.3s ease', 
-                  '&:hover': {
-                    borderColor: theme.palette.primary.main,
-                  },
-                  '&::before': msg.sender === 'You' ? {
+                  border: '1px solid rgba(0,0,0,0.1)',
+                  boxShadow: theme.palette.mode === 'dark' ? 'none' : '0 1px 3px rgba(0,0,0,0.1)',
+                  '&::before': msg.sender === 'You' || msg.sender === 'AI Assistant' ? {
                     content: '""',
                     position: 'absolute',
                     top: 12,
@@ -265,7 +360,7 @@ export default function ChatWidget() {
                   sx={{ 
                     fontWeight: 600, 
                     mb: 0.5,
-                    color: msg.sender === 'You' ? '#fff' : 'text.primary',
+                    color: msg.sender === 'You' || msg.sender === 'AI Assistant' ? '#fff' : 'text.primary',
                   }}
                 >
                   {msg.sender}
@@ -275,7 +370,7 @@ export default function ChatWidget() {
                   sx={{ 
                     mb: 1,
                     lineHeight: 1.5,
-                    color: msg.sender === 'You' ? '#fff' : 'text.primary',
+                    color: msg.sender === 'You' || msg.sender === 'AI Assistant' ? '#fff' : 'text.primary',
                   }}
                 >
                   {msg.text}
@@ -285,7 +380,7 @@ export default function ChatWidget() {
                   sx={{ 
                     display: 'block',
                     textAlign: 'right',
-                    color: msg.sender === 'You' ? 'rgba(255, 255, 255, 0.8)' : 'text.secondary',
+                    color: msg.sender === 'You' || msg.sender === 'AI Assistant' ? 'rgba(255, 255, 255, 0.8)' : 'text.secondary',
                     fontSize: '0.7rem',
                   }}
                 >
@@ -301,7 +396,7 @@ export default function ChatWidget() {
         sx={{ 
           p: 2.5, 
           bgcolor: 'background.paper',
-          borderTop: `1px solid ${theme.palette.divider}`,
+          borderTop: '1px solid rgba(0,0,0,0.1)',
           borderBottomLeftRadius: 4,
           borderBottomRightRadius: 4,
         }}
@@ -311,7 +406,7 @@ export default function ChatWidget() {
             fullWidth
             size="small"
             variant="outlined"
-            placeholder="Type a message..."
+            placeholder={mode === 'team' ? 'Type a message...' : 'Ask Your Assistant...'}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={handleKeyPress}
@@ -321,7 +416,7 @@ export default function ChatWidget() {
                 bgcolor: 'background.default',
                 fontSize: '0.9rem',
                 '& fieldset': {
-                  borderColor: theme.palette.divider,
+                  borderColor: 'rgba(0,0,0,0.1)',
                 },
                 '&:hover fieldset': {
                   borderColor: theme.palette.primary.main,
@@ -339,7 +434,7 @@ export default function ChatWidget() {
                 opacity: 0.7,
               },
             }}
-            aria-label="Chat message input"
+            aria-label={mode === 'team' ? 'Chat message input' : 'Your Assistant query input'}
           />
           <Button
             variant="contained"
@@ -353,7 +448,7 @@ export default function ChatWidget() {
               py: 1,
               bgcolor: theme.palette.primary.main,
               '&:hover': {
-                bgcolor: theme.palette.primary.dark,
+                bgcolor: theme.palette.secondary.main,
               },
               '&:disabled': {
                 bgcolor: theme.palette.action.disabledBackground,
