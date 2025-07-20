@@ -13,9 +13,9 @@ import {
 import { MessageSquare, UserPlus } from 'lucide-react';
 
 const newHires = [
-  { name: 'Eric R.', role: 'UX Researcher', avatar: 'https://i.pravatar.cc/150?img=15' },
-  { name: 'Kevin D.', role: 'Backend Developer', avatar: 'https://i.pravatar.cc/150?img=12' },
-  { name: 'Sofia G.', role: 'HR Specialist', avatar: 'https://i.pravatar.cc/150?img=21' },
+  { name: 'Ewan M.', role: 'UX Researcher', avatar: 'https://i.pravatar.cc/150?img=15' },
+  { name: 'Dougal D.', role: 'Backend Developer', avatar: 'https://i.pravatar.cc/150?img=12' },
+  { name: 'Elena G.', role: 'HR Specialist', avatar: 'https://i.pravatar.cc/150?img=21' },
 ];
 
 const WelcomeNewHiresWidget = () => {

@@ -13,21 +13,21 @@ import { Users, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const team = [
   {
-    name: 'Sarah Martinez',
+    name: 'Giulia Bianchi',
     role: 'Senior UX Designer',
     department: 'Design Team',
     achievement: 'Led the comprehensive redesign of our flagship mobile application, focusing on user-centric design principles and iterative feedback loops. This initiative resulted in a remarkable 40% increase in overall user engagement and a significant improvement in app store ratings, demonstrating a profound impact on our product"s market performance and user satisfaction.',
     avatar: 'https://i.pravatar.cc/150?img=5',
   },
   {
-    name: 'Alex Chen',
+    name: 'Luca Moretti',
     role: 'DevOps Engineer',
     department: 'Infrastructure Team',
     achievement: 'Spearheaded the implementation of advanced CI/CD pipelines and automated deployment strategies across all major projects. This critical infrastructure upgrade successfully reduced our average deployment time by an impressive 60%, drastically improving development velocity and operational efficiency, while also minimizing human error in the release process.',
     avatar: 'https://i.pravatar.cc/150?img=11',
   },
   {
-    name: 'Maria Rodriguez',
+    name: 'Francesca Vitale',
     role: 'Product Manager',
     department: 'Product Team',
     achievement: 'Successfully launched three major product features this quarter, each exceeding its initial adoption targets by a substantial margin. Her strategic vision and meticulous execution were instrumental in driving these initiatives from concept to market, significantly contributing to the company"s growth and competitive edge in the industry.',

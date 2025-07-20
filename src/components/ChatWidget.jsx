@@ -26,9 +26,9 @@ export default function ChatWidget({ setIsChatOpen }) {
       }));
     }
     return [
-      { id: 1, sender: 'Sarah M.', text: 'Good morning team! Ready for today\'s sprint?', timestamp: new Date(Date.now() - 300000) },
-      { id: 2, sender: 'Alex C.', text: 'Morning! Yes, looking forward to the new features', timestamp: new Date(Date.now() - 240000) },
-      { id: 3, sender: 'Maria R.', text: 'The design mockups are ready for review', timestamp: new Date(Date.now() - 180000) },
+      { id: 1, sender: 'Francesca M.', text: 'Good morning team! Ready for today\'s sprint?', timestamp: new Date(Date.now() - 300000) },
+      { id: 2, sender: 'Matteo C.', text: 'Morning! Yes, looking forward to the new features', timestamp: new Date(Date.now() - 240000) },
+      { id: 3, sender: 'Isla R.', text: 'The design mockups are ready for review', timestamp: new Date(Date.now() - 180000) },
     ];
   });
   const [assistantMessages, setAssistantMessages] = useState(() => {

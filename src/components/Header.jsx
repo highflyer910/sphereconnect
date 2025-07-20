@@ -209,7 +209,7 @@ export default function Header({ onChatClick }) {
               onClick={handleProfileClick}
             >
               <Avatar
-                alt="Anita Hooper"
+                alt="Fiona Ramsay"
                 src="https://i.pravatar.cc/60?img=26"
                 sx={{ width: 26, height: 26 }}
               />
@@ -326,7 +326,7 @@ export default function Header({ onChatClick }) {
             onClick={handleProfileClick}
           >
             <Avatar
-              alt="Anita Hooper"
+              alt="Fiona Ramsay"
               src="https://i.pravatar.cc/60?img=26"
               sx={{ width: 32, height: 32 }}
             />
@@ -338,7 +338,7 @@ export default function Header({ onChatClick }) {
                 fontSize: '0.875rem',
               }}
             >
-              Anita Hooper
+              Fiona Ramsay
             </Typography>
             <ChevronDown size={18} style={{ color: muiTheme.palette.text.primary }} />
           </Box>
@@ -412,7 +412,7 @@ export default function Header({ onChatClick }) {
                 lineHeight: 1.4,
               }}
             >
-              Anita
+              Fiona
             </Typography>
             <Typography
               variant="body2"

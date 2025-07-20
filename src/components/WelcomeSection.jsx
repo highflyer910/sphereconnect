@@ -63,7 +63,7 @@ const WelcomeSection = () => {
               fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' }
             }}
           >
-            Happy {weekday}, Anita!
+            Happy {weekday}, Fiona!
           </Typography>
           <Typography 
             variant="body1" 
