@@ -9,7 +9,7 @@ A modern, feature-rich intranet dashboard designed for Axero’s “Holistic Web
 ### Preview
 | Dark Theme | Light Theme |
 |------------|-------------|
-| ![Dark Theme Screenshot](dark-theme-screenshot) | ![Light Theme Screenshot](light-theme-screenshot) |
+| ![Dark Theme Screenshot](https://raw.githubusercontent.com/highflyer910/sphereconnect/refs/heads/master/public/dark.png?token=GHSAT0AAAAAADFVM5LDAB7TFQC7A7OCCB4Q2D5KYTQ) | ![Light Theme Screenshot](https://raw.githubusercontent.com/highflyer910/sphereconnect/refs/heads/master/public/light.png?token=GHSAT0AAAAAADFVM5LCIM7YZYZZ7UO7JTFY2D5KZGA) |
 
 🌟 [Live Demo](https://sphere-connect.vercel.app/)
 
@@ -57,8 +57,6 @@ This project is **mobile-first**, fully responsive, and designed with accessibil
 - Clean UI with elegant borders (no box shadows)
 - ARIA roles for accessibility
 - Real-time data & interactivity
-
----
 
 
 ## Getting Started
