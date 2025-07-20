@@ -16,33 +16,33 @@ export default function Footer() {
     {
       title: "Resources",
       links: [
-        { label: "Policies", href: "/policy-center" },
-        { label: "Forms", href: "/forms" },
-        { label: "Training", href: "/training" }
+        { label: "Policies", href: "#" },
+        { label: "Forms", href: "#" },
+        { label: "Training", href: "#" }
       ]
     },
     {
       title: "Legal",
       links: [
-        { label: "Privacy", href: "/privacy" },
-        { label: "Terms", href: "/terms" },
-        { label: "Security", href: "/security" }
+        { label: "Privacy", href: "#" },
+        { label: "Terms", href: "#" },
+        { label: "Security", href: "#" }
       ]
     },
     {
       title: "Company",
       links: [
-        { label: "About", href: "/about" },
-        { label: "Careers", href: "/careers" },
-        { label: "Blog", href: "/blog" }
+        { label: "About", href: "#" },
+        { label: "Careers", href: "#" },
+        { label: "Blog", href: "#" }
       ]
     },
     {
       title: "Support",
       links: [
-        { label: "Help Center", href: "/help" },
-        { label: "Contact", href: "/contact" },
-        { label: "Status", href: "/status" }
+        { label: "Help Center", href: "#" },
+        { label: "Contact", href: "#" },
+        { label: "Status", href: "#" }
       ]
     }
   ];
