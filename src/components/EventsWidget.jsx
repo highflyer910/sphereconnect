@@ -93,9 +93,38 @@ const EventsWidget = () => {
               p: 2,
               border: `1px solid ${theme.palette.divider}`,
               borderRadius: 2,
-              transition: 'border-color 0.3s ease',
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              cursor: 'pointer',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: '-100%',
+                width: '100%',
+                height: '100%',
+                background: `linear-gradient(90deg, 
+                  transparent, 
+                  ${theme.palette.primary.main}08, 
+                  transparent
+                )`,
+                transition: 'left 0.6s ease',
+                zIndex: 1,
+              },
               '&:hover': {
                 borderColor: theme.palette.primary.main,
+                bgcolor: `${theme.palette.primary.main}02`,
+                '&::before': {
+                  left: '100%',
+                },
+                '& .event-title': {
+                  color: theme.palette.primary.main,
+                },
+                '& .event-chip': {
+                  transform: 'scale(1.05)',
+                  filter: 'brightness(1.1)',
+                },
               },
             }}
           >
@@ -105,6 +134,8 @@ const EventsWidget = () => {
                 justifyContent: 'space-between',
                 alignItems: 'flex-start',
                 mb: 1,
+                zIndex: 2,
+                position: 'relative',
               }}
             >
               <Box sx={{ flex: 1 }}>
@@ -116,6 +147,7 @@ const EventsWidget = () => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 0.5,
+                    transition: 'color 0.3s ease',
                   }}
                 >
                   <Clock size={12} aria-hidden="true" />
@@ -125,10 +157,12 @@ const EventsWidget = () => {
                   id={`event-title-${index}`}
                   variant="subtitle1"
                   component="h4"
+                  className="event-title"
                   sx={{
                     fontWeight: 600,
                     mb: 1,
                     color: 'text.primary',
+                    transition: 'color 0.3s ease',
                   }}
                 >
                   {event.title}
@@ -141,6 +175,7 @@ const EventsWidget = () => {
                     alignItems: 'center',
                     gap: 0.5,
                     mb: 1,
+                    transition: 'color 0.3s ease',
                   }}
                 >
                   <MapPin size={12} aria-hidden="true" />
@@ -169,6 +204,9 @@ const EventsWidget = () => {
                 mb: 1.5,
                 color: 'text.secondary',
                 lineHeight: 1.4,
+                transition: 'color 0.3s ease',
+                zIndex: 2,
+                position: 'relative',
               }}
             >
               {event.description}
@@ -179,19 +217,26 @@ const EventsWidget = () => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                zIndex: 2,
+                position: 'relative',
               }}
             >
               <Chip
                 label={event.type}
                 color={event.typeColor}
                 size="small"
+                className="event-chip"
                 aria-label={`Event type: ${event.type}`}
+                sx={{
+                  transition: 'all 0.3s ease',
+                }}
               />
               <Typography
                 variant="caption"
                 sx={{
                   color: 'text.secondary',
                   fontWeight: 500,
+                  transition: 'color 0.3s ease',
                 }}
                 aria-label={`${event.attendees} people attending`}
               >

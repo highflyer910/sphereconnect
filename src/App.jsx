@@ -22,7 +22,6 @@ const styles = {
     flexDirection: 'column',
     width: '100%',
     maxWidth: '100vw',
-    overflowX: 'hidden',
   },
   mainContent: {
     flex: 1,

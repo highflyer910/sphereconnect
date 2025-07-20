@@ -20,7 +20,7 @@ const newHires = [
 
 const WelcomeNewHiresWidget = () => {
   const theme = useTheme();
-
+  
   return (
     <Paper
       elevation={2}
@@ -62,9 +62,7 @@ const WelcomeNewHiresWidget = () => {
           View All
         </Button>
       </Box>
-
       <Divider sx={{ mb: 2 }} />
-
       <Stack spacing={2} sx={{ flex: 1, overflowY: 'auto' }}>
         {newHires.map((person, index) => (
           <Box
@@ -73,34 +71,91 @@ const WelcomeNewHiresWidget = () => {
               p: 2,
               border: `1px solid ${theme.palette.divider}`,
               borderRadius: 2,
-              transition: 'border-color 0.3s ease',
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              cursor: 'pointer',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: '-100%',
+                width: '100%',
+                height: '100%',
+                background: `linear-gradient(90deg, 
+                  transparent, 
+                  ${theme.palette.primary.main}08, 
+                  transparent
+                )`,
+                transition: 'left 0.6s ease',
+                zIndex: 1,
+              },
               '&:hover': {
-                borderColor: theme.palette.primary.main,
+                borderColor: theme.palette.primary.main,                
+                bgcolor: `${theme.palette.primary.main}02`,
+                '&::before': {
+                  left: '100%',
+                },
+                '& .avatar': {
+                  transform: 'scale(1.05)',
+                  filter: 'brightness(1.1)',
+                },
+                '& .name': {
+                  color: theme.palette.primary.main,
+                },
+                '& .chat-icon': {
+                  transform: 'scale(1.1) rotate(5deg)',
+                  bgcolor: `${theme.palette.primary.main}10`,
+                },
               },
               display: 'flex',
               alignItems: 'center',
               gap: 2,
             }}
           >
-            <Avatar 
-              src={person.avatar} 
+            <Avatar
+              src={person.avatar}
               alt={`Portrait of ${person.name}`}
-              sx={{ width: 40, height: 40 }}
+              className="avatar"
+              sx={{ 
+                width: 40, 
+                height: 40,
+                transition: 'all 0.3s ease',
+                zIndex: 2,
+                position: 'relative',
+              }}
             />
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+            <Box sx={{ flex: 1, zIndex: 2, position: 'relative' }}>
+              <Typography 
+                variant="subtitle1" 
+                className="name"
+                sx={{ 
+                  fontWeight: 600,
+                  transition: 'color 0.3s ease',
+                }}
+              >
                 {person.name}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography 
+                variant="body2" 
+                color="text.secondary"
+                sx={{
+                  transition: 'color 0.3s ease',
+                }}
+              >
                 {person.role}
               </Typography>
             </Box>
             <IconButton
               size="small"
+              className="chat-icon"
               sx={{
                 color: theme.palette.primary.main,
+                transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                zIndex: 2,
+                position: 'relative',
                 '&:hover': {
-                  bgcolor: 'transparent',
+                  bgcolor: `${theme.palette.primary.main}15`,
                   color: theme.palette.primary.dark,
                 }
               }}

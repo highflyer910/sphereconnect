@@ -87,15 +87,51 @@ const AnnouncementsWidget = () => {
               p: 2,
               border: `1px solid ${theme.palette.divider}`,
               borderRadius: 2,
-              transition: 'border-color 0.3s ease',
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              cursor: 'pointer',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: '-100%',
+                width: '100%',
+                height: '100%',
+                background: `linear-gradient(90deg, 
+                  transparent, 
+                  ${theme.palette.primary.main}08, 
+                  transparent
+                )`,
+                transition: 'left 0.6s ease',
+                zIndex: 1,
+              },
               '&:hover': {
-                borderColor: theme.palette.primary.main, 
+                borderColor: theme.palette.primary.main,
+                bgcolor: `${theme.palette.primary.main}02`,
+                '&::before': {
+                  left: '100%',
+                },
+                '& .announcement-title': {
+                  color: theme.palette.primary.main,
+                },
+                '& .announcement-chip': {
+                  transform: 'scale(1.05)',
+                  filter: 'brightness(1.1)',
+                },
               },
             }}
           >
             <Typography
               variant="caption"
-              sx={{ color: 'text.secondary', mb: 0.5, display: 'block' }}
+              sx={{
+                color: 'text.secondary',
+                mb: 0.5,
+                display: 'block',
+                transition: 'color 0.3s ease',
+                zIndex: 2,
+                position: 'relative',
+              }}
             >
               {item.date}
             </Typography>
@@ -103,17 +139,41 @@ const AnnouncementsWidget = () => {
               id={`announcement-title-${index}`}
               variant="subtitle1"
               component="h4"
-              sx={{ fontWeight: 600, mb: 1, color: 'text.primary' }}
+              className="announcement-title"
+              sx={{
+                fontWeight: 600,
+                mb: 1,
+                color: 'text.primary',
+                transition: 'color 0.3s ease',
+                zIndex: 2,
+                position: 'relative',
+              }}
             >
               {item.title}
             </Typography>
             <Typography
               variant="body2"
-              sx={{ mb: 1.5, color: 'text.secondary' }}
+              sx={{
+                mb: 1.5,
+                color: 'text.secondary',
+                transition: 'color 0.3s ease',
+                zIndex: 2,
+                position: 'relative',
+              }}
             >
               {item.description}
             </Typography>
-            <Chip label={item.tag} color={item.tagColor} size="small" />
+            <Chip
+              label={item.tag}
+              color={item.tagColor}
+              size="small"
+              className="announcement-chip"
+              sx={{
+                transition: 'all 0.3s ease',
+                zIndex: 2,
+                position: 'relative',
+              }}
+            />
           </Box>
         ))}
       </Stack>

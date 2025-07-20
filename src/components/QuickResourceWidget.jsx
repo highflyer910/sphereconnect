@@ -14,6 +14,7 @@ import {
   CardContent,
   useTheme,
   Divider,
+  Grid,
 } from '@mui/material';
 import {
   CalendarCheck,
@@ -269,8 +270,9 @@ const resources = [
         <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary', mb: 2 }}>
           Analytics Dashboard
         </Typography>
-        <Box container spacing={1.5} sx={{ mb: 2 }}>
-          <Box item xs={6}>
+        
+        <Grid container spacing={1.5} sx={{ mb: 2 }} justifyContent="center">
+          <Grid item xs={6}>
             <Card
               sx={{
                 textAlign: 'center',
@@ -288,8 +290,8 @@ const resources = [
                 </Typography>
               </CardContent>
             </Card>
-          </Box>
-          <Box item xs={6}>
+          </Grid>
+          <Grid item xs={6}>
             <Card
               sx={{
                 textAlign: 'center',
@@ -307,10 +309,11 @@ const resources = [
                 </Typography>
               </CardContent>
             </Card>
-          </Box>
-        </Box>
-        <Box container spacing={1.5} sx={{ mb: 2 }}>
-          <Box item xs={4}>
+          </Grid>
+        </Grid>
+        
+        <Grid container spacing={1.5} sx={{ mb: 2 }}>
+          <Grid item xs={4}>
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2" sx={{ color: 'primary.main', fontWeight: 600 }}>
                 127
@@ -319,8 +322,8 @@ const resources = [
                 Tasks Completed
               </Typography>
             </Box>
-          </Box>
-          <Box item xs={4}>
+          </Grid>
+          <Grid item xs={4}>
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2" sx={{ color: 'secondary.main', fontWeight: 600 }}>
                 8.5h
@@ -329,8 +332,8 @@ const resources = [
                 Avg. Daily Hours
               </Typography>
             </Box>
-          </Box>
-          <Box item xs={4}>
+          </Grid>
+          <Grid item xs={4}>
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2" sx={{ color: 'primary.main', fontWeight: 600 }}>
                 23
@@ -339,8 +342,9 @@ const resources = [
                 Team Members
               </Typography>
             </Box>
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
+        
         <Button
           variant="contained"
           color="secondary"
@@ -419,13 +423,28 @@ function QuickResourcesWidget() {
 
   const activeContent = resources.find((res) => res.key === activeKey);
 
+  const getModalHeight = (key) => {
+    switch (key) {
+      case 'analytics':
+        return { xs: '320px', sm: '300px' };
+      case 'training':
+        return { xs: '450px', sm: '440px' };
+      case 'time':
+        return { xs: '420px', sm: '420px' };
+      case 'project':
+        return { xs: '380px', sm: '380px' };
+      default:
+        return 'auto';
+    }
+  };
+
   return (
     <Paper
       elevation={2}
       sx={{
         p: 3,
         borderRadius: 4,
-        bgcolor: 'theme.palette.background.paper',
+        bgcolor: 'background.paper',
         width: '100%',
         maxWidth: { xs: '100%', md: 550 },
         mx: { xs: 'auto', md: 0 },
@@ -456,55 +475,98 @@ function QuickResourcesWidget() {
       <Divider sx={{ mb: 2 }} />
 
       <Box
-  sx={{
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: 1,
-    justifyContent: 'center',
-    flex: 1,
-  }}
->
-  {resources.map((res, i) => (
-    <Box
-      key={i}
-      onClick={() => openModal(res)}
-      sx={{
-        width: {
-          xs: '100%',
-          sm: 'calc(50% - 4px)',
-          md: 'calc(50% - 4px)',
-        },
-
-        flexShrink: 0,
-        flexGrow: 0,
-
-        flexBasis: {
-          xs: '100%',
-          sm: 'calc(50% - 4px)',
-          md: 'calc(50% - 4px)',
-        },
-
-        border: `1px solid ${theme.palette.divider}`,
-        borderRadius: 4,
-        p: 2,
-        textAlign: 'center',
-        cursor: 'pointer',
-        transition: 'all 0.3s ease',
-        boxSizing: 'border-box',
-
-        '&:hover': {
-          borderColor: theme.palette.primary.main,
-          transform: 'translateY(-2px)',
-        },
-      }}
-    >
-      {React.cloneElement(res.icon, { color: theme.palette.primary.main })}
-      <Typography variant="body2" sx={{ mt: 1, fontWeight: 500, color: 'text.primary' }}>
-        {res.label}
-      </Typography>
-    </Box>
-  ))}
-</Box>
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 1,
+          justifyContent: 'center',
+          flex: 1,
+        }}
+      >
+        {resources.map((res, i) => (
+          <Box
+            key={i}
+            onClick={() => openModal(res)}
+            sx={{
+              width: {
+                xs: '100%',
+                sm: 'calc(50% - 4px)',
+                md: 'calc(50% - 4px)',
+              },
+              flexShrink: 0,
+              flexGrow: 0,
+              flexBasis: {
+                xs: '100%',
+                sm: 'calc(50% - 4px)',
+                md: 'calc(50% - 4px)',
+              },
+              border: `1px solid ${theme.palette.divider}`,
+              borderRadius: 4,
+              p: 2,
+              textAlign: 'center',
+              cursor: 'pointer',
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              boxSizing: 'border-box',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: '-100%',
+                width: '100%',
+                height: '100%',
+                background: `linear-gradient(90deg, 
+                  transparent, 
+                  ${theme.palette.primary.main}08, 
+                  transparent
+                )`,
+                transition: 'left 0.6s ease',
+                zIndex: 1,
+              },
+              '&:hover': {
+                borderColor: theme.palette.primary.main,
+                bgcolor: `${theme.palette.primary.main}02`,
+                '&::before': {
+                  left: '100%',
+                },
+                '& .resource-icon': {
+                  transform: 'scale(1.05)',
+                  filter: 'brightness(1.1)',
+                },
+                '& .resource-label': {
+                  color: theme.palette.primary.main,
+                },
+              },
+            }}
+          >
+            <Box
+              className="resource-icon"
+              sx={{
+                transition: 'all 0.3s ease',
+                zIndex: 2,
+                position: 'relative',
+              }}
+            >
+              {React.cloneElement(res.icon, { color: theme.palette.primary.main })}
+            </Box>
+            <Typography
+              variant="body2"
+              className="resource-label"
+              sx={{
+                mt: 1,
+                fontWeight: 500,
+                color: 'text.primary',
+                transition: 'color 0.3s ease',
+                zIndex: 2,
+                position: 'relative',
+              }}
+            >
+              {res.label}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
 
       <Modal open={open} onClose={closeModal} aria-labelledby="quick-resource-modal">
         <Box
@@ -514,13 +576,24 @@ function QuickResourcesWidget() {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: { xs: '90%', sm: 350 },
+            height: activeKey ? getModalHeight(activeKey) : 'auto',
             bgcolor: 'background.paper',
             color: 'text.primary',
             p: 2,
             borderRadius: 4,
             border: '1px solid rgba(0, 0, 0, 0.1)',
-            maxHeight: '80vh',
             overflowY: 'auto',
+            '&::-webkit-scrollbar': {
+              width: '6px',
+            },
+            '&::-webkit-scrollbar-track': {
+              background: 'transparent',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: theme.palette.mode === 'light' ? 'rgba(177, 151, 119, 0.5)' : 'rgba(102, 187, 106, 0.5)',
+              borderRadius: '10px',
+              border: 'none',
+            },
           }}
         >
           <IconButton
@@ -531,6 +604,7 @@ function QuickResourcesWidget() {
               right: 8,
               color: 'text.primary',
               '&:hover': { bgcolor: 'action.hover' },
+              zIndex: 10,
             }}
             aria-label="Close modal"
           >

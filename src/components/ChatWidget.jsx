@@ -184,9 +184,7 @@ export default function ChatWidget({ setIsChatOpen }) {
         p: 0,
         borderRadius: 4,
         width: '100%',
-        maxWidth: { xs: '100%', sm: 350 },
-        minHeight: 400,
-        maxHeight: '80vh',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
@@ -195,11 +193,12 @@ export default function ChatWidget({ setIsChatOpen }) {
     >
       <Box 
         sx={{ 
-          p: 2.5, 
+          p: { xs: 1.5, sm: 2.5 }, 
           bgcolor: 'background.paper',
           borderBottom: '1px solid rgba(0,0,0,0.1)',
           borderTopLeftRadius: 4,
           borderTopRightRadius: 4,
+          flexShrink: 0, 
         }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -212,7 +211,7 @@ export default function ChatWidget({ setIsChatOpen }) {
               gap: 1.5,
               color: 'text.primary',
               fontWeight: 600,
-              fontSize: '1.1rem',
+              fontSize: { xs: '1rem', sm: '1.1rem' }, 
             }}
           >
             {mode === 'team' ? (
@@ -234,7 +233,7 @@ export default function ChatWidget({ setIsChatOpen }) {
                 color={theme.palette.primary.main} 
                 fill={theme.palette.primary.main} 
               />
-              <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
+              <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500, fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 {onlineUsers.length} online
                 {unseenMessages > 0 && (
                   <span style={{ 
@@ -256,12 +255,30 @@ export default function ChatWidget({ setIsChatOpen }) {
           value={mode}
           exclusive
           onChange={handleModeChange}
-          sx={{ mt: 1 }}
+          fullWidth
+          sx={{ 
+            mt: 1,
+            '& .MuiToggleButton-root': {
+              py: { xs: 0.25, sm: 0.5 },
+              px: 1,
+              fontSize: { xs: '0.7rem', sm: '0.75rem' }, 
+              textTransform: 'none',
+              border: '1px solid',
+              borderColor: 'divider',
+              '&.Mui-selected': {
+                bgcolor: 'primary.main',
+                color: 'white',
+                '&:hover': {
+                  bgcolor: 'primary.dark',
+                }
+              }
+            }
+          }}
         >
-          <ToggleButton value="team" sx={{ textTransform: 'none', fontSize: '0.8rem' }}>
+          <ToggleButton value="team" sx={{ textTransform: 'none', fontSize: { xs: '0.7rem', sm: '0.8rem' } }}>
             Team Chat
           </ToggleButton>
-          <ToggleButton value="assistant" sx={{ textTransform: 'none', fontSize: '0.8rem' }}>
+          <ToggleButton value="assistant" sx={{ textTransform: 'none', fontSize: { xs: '0.7rem', sm: '0.8rem' } }}>
             AI Assistant
           </ToggleButton>
         </ToggleButtonGroup>
@@ -269,15 +286,16 @@ export default function ChatWidget({ setIsChatOpen }) {
 
       <Box
         sx={{
-          flex: 1,
+          flex: '1 1 0',
+          minHeight: 0, 
           overflowY: 'auto',
-          p: 2,
+          p: { xs: 1, sm: 2 }, 
           display: 'flex',
           flexDirection: 'column',
-          gap: 2,
+          gap: { xs: 1.5, sm: 2 }, 
           bgcolor: 'background.default',
           '&::-webkit-scrollbar': {
-            width: '10px',
+            width: '8px',
           },
           '&::-webkit-scrollbar-track': {
             backgroundColor: theme.palette.mode === 'dark' ? '#1e293b' : '#f0ebe4',
@@ -300,23 +318,23 @@ export default function ChatWidget({ setIsChatOpen }) {
               sx={{
                 display: 'flex',
                 alignItems: 'flex-start',
-                gap: 1.5,
+                gap: { xs: 1, sm: 1.5 },
                 flexDirection: msg.sender === 'You' ? 'row-reverse' : 'row',
               }}
             >
               <Avatar
                 sx={{
-                  width: 36,
-                  height: 36,
+                  width: { xs: 32, sm: 36 }, 
+                  height: { xs: 32, sm: 36 },
                   bgcolor: msg.sender === 'You' || msg.sender === 'AI Assistant' 
                     ? theme.palette.primary.main 
                     : getAvatarColor(msg.sender),
-                  fontSize: '0.8rem',
+                  fontSize: { xs: '0.7rem', sm: '0.8rem' }, 
                   fontWeight: 600,
                   color: '#fff',
                 }}
               >
-                {msg.sender === 'AI Assistant' ? <Bot size={18} /> : getInitials(msg.sender)}
+                {msg.sender === 'AI Assistant' ? <Bot size={16} /> : getInitials(msg.sender)}
               </Avatar>
               <Box
                 sx={{
@@ -326,8 +344,8 @@ export default function ChatWidget({ setIsChatOpen }) {
                   color: msg.sender === 'You' || msg.sender === 'AI Assistant' 
                     ? '#fff'
                     : 'text.primary',
-                  borderRadius: 4,
-                  p: 1.5,
+                  borderRadius: { xs: 3, sm: 4 },
+                  p: { xs: 1, sm: 1.5 }, 
                   maxWidth: '85%',
                   position: 'relative',
                   border: '1px solid rgba(0,0,0,0.1)',
@@ -360,6 +378,7 @@ export default function ChatWidget({ setIsChatOpen }) {
                   sx={{ 
                     fontWeight: 600, 
                     mb: 0.5,
+                    fontSize: { xs: '0.75rem', sm: '0.875rem' }, 
                     color: msg.sender === 'You' || msg.sender === 'AI Assistant' ? '#fff' : 'text.primary',
                   }}
                 >
@@ -370,6 +389,7 @@ export default function ChatWidget({ setIsChatOpen }) {
                   sx={{ 
                     mb: 1,
                     lineHeight: 1.5,
+                    fontSize: { xs: '0.75rem', sm: '0.875rem' }, 
                     color: msg.sender === 'You' || msg.sender === 'AI Assistant' ? '#fff' : 'text.primary',
                   }}
                 >
@@ -381,7 +401,7 @@ export default function ChatWidget({ setIsChatOpen }) {
                     display: 'block',
                     textAlign: 'right',
                     color: msg.sender === 'You' || msg.sender === 'AI Assistant' ? 'rgba(255, 255, 255, 0.8)' : 'text.secondary',
-                    fontSize: '0.7rem',
+                    fontSize: { xs: '0.65rem', sm: '0.7rem' },
                   }}
                 >
                   {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -394,14 +414,16 @@ export default function ChatWidget({ setIsChatOpen }) {
 
       <Box 
         sx={{ 
-          p: 2.5, 
+          p: { xs: 1.5, sm: 2.5 },
           bgcolor: 'background.paper',
           borderTop: '1px solid rgba(0,0,0,0.1)',
           borderBottomLeftRadius: 4,
           borderBottomRightRadius: 4,
+          flexShrink: 0,
+          minHeight: { xs: 70, sm: 80 }, 
         }}
       >
-        <Box component="form" onSubmit={handleSendMessage} sx={{ display: 'flex', gap: 1.5 }}>
+        <Box component="form" onSubmit={handleSendMessage} sx={{ display: 'flex', gap: { xs: 1, sm: 1.5 } }}>
           <TextField
             fullWidth
             size="small"
@@ -414,7 +436,7 @@ export default function ChatWidget({ setIsChatOpen }) {
               '& .MuiOutlinedInput-root': { 
                 borderRadius: 3,
                 bgcolor: 'background.default',
-                fontSize: '0.9rem',
+                fontSize: { xs: '0.8rem', sm: '0.9rem' }, 
                 '& fieldset': {
                   borderColor: 'rgba(0,0,0,0.1)',
                 },
@@ -428,6 +450,7 @@ export default function ChatWidget({ setIsChatOpen }) {
               },
               '& .MuiInputBase-input': {
                 color: 'text.primary',
+                py: { xs: 0.75, sm: 1 }, 
               },
               '& .MuiInputBase-input::placeholder': {
                 color: 'text.secondary',
@@ -443,8 +466,8 @@ export default function ChatWidget({ setIsChatOpen }) {
             disabled={!inputValue.trim()}
             sx={{ 
               borderRadius: 3, 
-              minWidth: 80,
-              px: 2.5,
+              minWidth: { xs: 60, sm: 80 }, 
+              px: { xs: 1.5, sm: 2.5 }, 
               py: 1,
               bgcolor: theme.palette.primary.main,
               '&:hover': {
@@ -456,8 +479,9 @@ export default function ChatWidget({ setIsChatOpen }) {
               },
               textTransform: 'none',
               fontWeight: 600,
+              fontSize: { xs: '0.75rem', sm: '0.875rem' },
             }}
-            startIcon={<Send size={16} />}
+            startIcon={<Send size={14} />}
             aria-label="Send message"
           >
             Send
