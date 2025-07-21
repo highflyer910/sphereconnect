@@ -10,14 +10,13 @@ const commonSettings = {
       'sans-serif',
     ].join(','),
   },
-  
   components: {
     MuiCssBaseline: {
       styleOverrides: (theme) => ({
         body: {
           '--scrollbar-track': theme.palette.mode === 'light' ? '#f0ebe4' : '#1e293b',
-          '--scrollbar-thumb': theme.palette.mode === 'light' ? '#b19777' : '#66bb6a',
-          '--scrollbar-thumb-hover': theme.palette.mode === 'light' ? '#756652' : '#9ccc65',
+          '--scrollbar-thumb': theme.palette.mode === 'light' ? '#8b6f47' : '#66bb6a',
+          '--scrollbar-thumb-hover': theme.palette.mode === 'light' ? '#5f4b34' : '#9ccc65',
         },
         '::-webkit-scrollbar': {
           width: '10px',
@@ -28,17 +27,17 @@ const commonSettings = {
           borderRadius: '10px',
         },
         '::-webkit-scrollbar-thumb': {
-          backgroundColor: theme.palette.mode === 'light' ? '#b19777' : '#66bb6a',
+          backgroundColor: theme.palette.mode === 'light' ? '#8b6f47' : '#66bb6a',
           borderRadius: '10px',
           border: `2px solid ${theme.palette.mode === 'light' ? '#f0ebe4' : '#1e293b'}`,
           transition: 'background-color 0.3s ease',
           '&:hover': {
-            backgroundColor: theme.palette.mode === 'light' ? '#756652' : '#9ccc65',
+            backgroundColor: theme.palette.mode === 'light' ? '#5f4b34' : '#9ccc65',
           },
         },
         '*': {
           scrollbarWidth: 'thin',
-          scrollbarColor: `${theme.palette.mode === 'light' ? '#b19777' : '#66bb6a'} ${theme.palette.mode === 'light' ? '#f0ebe4' : '#1e293b'}`,
+          scrollbarColor: `${theme.palette.mode === 'light' ? '#8b6f47' : '#66bb6a'} ${theme.palette.mode === 'light' ? '#f0ebe4' : '#1e293b'}`,
         },
       }),
     },
@@ -61,7 +60,7 @@ const lightTheme = createTheme({
       paper: '#f0ebe4',
     },
     primary: {
-      main: '#b19777',
+      main: '#8b6f47',
     },
     secondary: {
       main: '#756652',

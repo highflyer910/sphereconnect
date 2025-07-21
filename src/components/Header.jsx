@@ -96,7 +96,7 @@ export default function Header({ onChatClick }) {
             variant="h6"
             sx={{
               fontWeight: 600,
-              color: 'primary.main',
+              color: 'secondary.main',
               fontSize: '1.5rem',
             }}
           >
