@@ -90,7 +90,7 @@ const WelcomeSection = () => {
             />
             <Stat 
               icon={<Calendar size={18} color={textColor} />} 
-              label="3 meetings today" 
+              label="2 upcoming birthdays" 
               textColor={textColor}
             />
             <Stat 

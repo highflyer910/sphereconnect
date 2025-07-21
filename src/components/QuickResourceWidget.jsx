@@ -15,6 +15,8 @@ import {
   useTheme,
   Divider,
   Grid,
+  Avatar,
+  InputAdornment,
 } from '@mui/material';
 import {
   CalendarCheck,
@@ -26,6 +28,11 @@ import {
   Play,
   Square,
   RotateCcw,
+  Users,
+  Video,
+  Search,
+  Mail,
+  MessageSquare,
 } from 'lucide-react';
 
 const resources = [
@@ -270,7 +277,6 @@ const resources = [
         <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary', mb: 2 }}>
           Analytics Dashboard
         </Typography>
-        
         <Grid container spacing={1.5} sx={{ mb: 2 }} justifyContent="center">
           <Grid item xs={6}>
             <Card
@@ -311,7 +317,6 @@ const resources = [
             </Card>
           </Grid>
         </Grid>
-        
         <Grid container spacing={1.5} sx={{ mb: 2 }}>
           <Grid item xs={4}>
             <Box sx={{ textAlign: 'center' }}>
@@ -344,7 +349,6 @@ const resources = [
             </Box>
           </Grid>
         </Grid>
-        
         <Button
           variant="contained"
           color="secondary"
@@ -353,6 +357,294 @@ const resources = [
           sx={{ borderRadius: 4 }}
         >
           View Full Dashboard
+        </Button>
+      </>
+    ),
+  },
+  {
+    icon: <Rocket size={24} />,
+    label: 'Launch Pad',
+    key: 'launch',
+    content: (theme) => (
+      <>
+        <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary', mb: 2 }}>
+          Launch Pad
+        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 2 }}>
+          <Box>
+            <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 1.5, fontWeight: 500 }}>
+              Video Conferencing
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 1.5 }}>
+              <Card
+                sx={{
+                  flex: 1,
+                  textAlign: 'center',
+                  bgcolor: 'background.paper',
+                  border: `1px solid ${theme.palette.divider}`,
+                  borderRadius: 3,
+                  cursor: 'pointer',
+                  '&:hover': {
+                    borderColor: 'primary.main',
+                    transform: 'translateY(-1px)',
+                    boxShadow: `0 2px 8px ${theme.palette.primary.main}20`,
+                  },
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <CardContent sx={{ py: 1.5, px: 1 }}>
+                  <Video size={20} color={theme.palette.primary.main} />
+                  <Typography variant="caption" sx={{ mt: 0.5, color: 'text.primary', fontWeight: 500, display: 'block' }}>
+                    Zoom
+                  </Typography>
+                  <Button
+                    variant="text"
+                    color="primary"
+                    size="small"
+                    href="https://zoom.us/signin#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{ mt: 0.5, fontSize: '0.7rem', minWidth: 'auto', px: 1 }}
+                    aria-label="Join Zoom meeting"
+                  >
+                    Join
+                  </Button>
+                </CardContent>
+              </Card>
+              <Card
+                sx={{
+                  flex: 1,
+                  textAlign: 'center',
+                  bgcolor: 'background.paper',
+                  border: `1px solid ${theme.palette.divider}`,
+                  borderRadius: 3,
+                  cursor: 'pointer',
+                  '&:hover': {
+                    borderColor: 'primary.main',
+                    transform: 'translateY(-1px)',
+                    boxShadow: `0 2px 8px ${theme.palette.primary.main}20`,
+                  },
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <CardContent sx={{ py: 1.5, px: 1 }}>
+                  <Video size={20} color={theme.palette.primary.main} />
+                  <Typography variant="caption" sx={{ mt: 0.5, color: 'text.primary', fontWeight: 500, display: 'block' }}>
+                    Meet
+                  </Typography>
+                  <Button
+                    variant="text"
+                    color="primary"
+                    size="small"
+                    href="https://meet.google.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{ mt: 0.5, fontSize: '0.7rem', minWidth: 'auto', px: 1 }}
+                    aria-label="Join Google Meet"
+                  >
+                    Join
+                  </Button>
+                </CardContent>
+              </Card>
+              <Card
+                sx={{
+                  flex: 1,
+                  textAlign: 'center',
+                  bgcolor: 'background.paper',
+                  border: `1px solid ${theme.palette.divider}`,
+                  borderRadius: 3,
+                  cursor: 'pointer',
+                  '&:hover': {
+                    borderColor: 'primary.main',
+                    transform: 'translateY(-1px)',
+                    boxShadow: `0 2px 8px ${theme.palette.primary.main}20`,
+                  },
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <CardContent sx={{ py: 1.5, px: 1 }}>
+                  <Video size={20} color={theme.palette.primary.main} />
+                  <Typography variant="caption" sx={{ mt: 0.5, color: 'text.primary', fontWeight: 500, display: 'block' }}>
+                    Teams
+                  </Typography>
+                  <Button
+                    variant="text"
+                    color="primary"
+                    size="small"
+                    href="https://www.microsoft.com/en-us/microsoft-teams/join-a-meeting"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{ mt: 0.5, fontSize: '0.7rem', minWidth: 'auto', px: 1 }}
+                    aria-label="Join Microsoft Teams meeting"
+                  >
+                    Join
+                  </Button>
+                </CardContent>
+              </Card>
+            </Box>
+          </Box>
+
+          <Box>
+            <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 1.5, fontWeight: 500 }}>
+              Communication
+            </Typography>
+            <Card
+              sx={{
+                bgcolor: 'background.paper',
+                border: `1px solid ${theme.palette.divider}`,
+                borderRadius: 3,
+                cursor: 'pointer',
+                '&:hover': {
+                  borderColor: 'primary.main',
+                  transform: 'translateY(-1px)',
+                  boxShadow: `0 2px 8px ${theme.palette.primary.main}20`,
+                },
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <CardContent sx={{ py: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                <MessageSquare size={24} color={theme.palette.primary.main} />
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 500 }}>
+                    Slack Workspace
+                  </Typography>
+                </Box>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  href="https://slack.com/signin"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{ borderRadius: 2 }}
+                  aria-label="Sign in to Slack"
+                >
+                  Connect
+                </Button>
+              </CardContent>
+            </Card>
+          </Box>
+        </Box>
+
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth
+          size="small"
+          sx={{ borderRadius: 3 }}
+        >
+          Explore More Tools
+        </Button>
+      </>
+    ),
+  },
+  {
+    icon: <Users size={24} />,
+    label: 'Team Directory',
+    key: 'directory',
+    content: (theme) => (
+      <>
+        <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary', mb: 2 }}>
+          Team Directory
+        </Typography>
+        <TextField
+          id="directory-search"
+          placeholder="Search team members..."
+          variant="outlined"
+          size="small"
+          fullWidth
+          sx={{ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search size={18} color={theme.palette.text.secondary} />
+              </InputAdornment>
+            ),
+          }}
+          aria-label="Search team members"
+        />
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 2 }}>
+          <Card
+            sx={{
+              border: `1px solid ${theme.palette.divider}`,
+              borderRadius: 4,
+              '&:hover': { borderColor: 'primary.main', transform: 'translateY(-2px)' },
+              transition: 'all 0.3s ease',
+            }}
+          >
+            <CardContent sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Avatar sx={{ bgcolor: 'primary.main', width: 40, height: 40 }}>JD</Avatar>
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                  Lorna Craig
+                </Typography>
+                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                  UX Designer
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <IconButton
+                  size="small"
+                  href="mailto:lorna.craig@example.com"
+                  aria-label="Email Lorna Craig"
+                >
+                  <Mail size={18} color={theme.palette.primary.main} />
+                </IconButton>
+                <IconButton
+                  size="small"
+                  aria-label="Chat with Lorna Craig"
+                  onClick={() => alert('Chat functionality coming soon!')}
+                >
+                  <MessageSquare size={18} color={theme.palette.primary.main} />
+                </IconButton>
+              </Box>
+            </CardContent>
+          </Card>
+          <Card
+            sx={{
+              border: `1px solid ${theme.palette.divider}`,
+              borderRadius: 4,
+              '&:hover': { borderColor: 'primary.main', transform: 'translateY(-2px)' },
+              transition: 'all 0.3s ease',
+            }}
+          >
+            <CardContent sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Avatar sx={{ bgcolor: 'secondary.main', width: 40, height: 40 }}>JS</Avatar>
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                  Fraser MacLeod
+                </Typography>
+                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                  Software Engineer
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <IconButton
+                  size="small"
+                  href="mailto:fraser.macleod@example.com"
+                  aria-label="Email Fraser MacLeod"
+                >
+                  <Mail size={18} color={theme.palette.primary.main} />
+                </IconButton>
+                <IconButton
+                  size="small"
+                  aria-label="Chat with Fraser MacLeod"
+                  onClick={() => alert('Chat functionality coming soon!')}
+                >
+                  <MessageSquare size={18} color={theme.palette.primary.main} />
+                </IconButton>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth
+          size="small"
+          sx={{ borderRadius: 4 }}
+        >
+          View Full Directory
         </Button>
       </>
     ),
@@ -433,6 +725,10 @@ function QuickResourcesWidget() {
         return { xs: '420px', sm: '420px' };
       case 'project':
         return { xs: '380px', sm: '380px' };
+      case 'launch':
+        return { xs: '420px', sm: '420px', };
+      case 'directory':
+        return { xs: '400px', sm: '380px' };
       default:
         return 'auto';
     }
@@ -492,13 +788,20 @@ function QuickResourcesWidget() {
                 xs: '100%',
                 sm: 'calc(50% - 4px)',
                 md: 'calc(50% - 4px)',
+                lg: 'calc(44% - 4px)',
               },
+              height: {
+                xs: 'auto',
+                md: '100px',
+                lg: '100px',
+    },
               flexShrink: 0,
               flexGrow: 0,
               flexBasis: {
                 xs: '100%',
                 sm: 'calc(50% - 4px)',
                 md: 'calc(50% - 4px)',
+                lg: 'calc(44% - 4px)',
               },
               border: `1px solid ${theme.palette.divider}`,
               borderRadius: 4,
@@ -509,6 +812,10 @@ function QuickResourcesWidget() {
               overflow: 'hidden',
               transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
               boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
               '&::before': {
                 content: '""',
                 position: 'absolute',

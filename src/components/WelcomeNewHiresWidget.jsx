@@ -68,7 +68,7 @@ const WelcomeNewHiresWidget = () => {
           <Box
             key={index}
             sx={{
-              p: 2,
+              p: 3,
               border: `1px solid ${theme.palette.divider}`,
               borderRadius: 2,
               position: 'relative',

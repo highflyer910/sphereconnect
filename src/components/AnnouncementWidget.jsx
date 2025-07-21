@@ -25,7 +25,7 @@ const announcements = [
     title: 'Mid-Year Performance Reviews',
     description:
       'Managers will begin performance reviews starting July 10. Make sure to update your self-assessment forms by the 9th.',
-    tag: 'HR',
+    tag: 'Reviews',
     tagColor: 'warning',
   },
 ];

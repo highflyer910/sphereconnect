@@ -168,7 +168,10 @@ export default function Header({ onChatClick }) {
               size="small"
               aria-label="toggle theme"
               onClick={toggleTheme}
-              sx={{ color: muiTheme.palette.text.primary }}
+              sx={{ 
+                color: muiTheme.palette.text.primary,
+                p: 0.5,
+              }}
             >
               {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
             </IconButton>
@@ -178,7 +181,10 @@ export default function Header({ onChatClick }) {
               size="small"
               aria-label="notifications"
               onClick={handleNotifClick}
-              sx={{ color: muiTheme.palette.text.primary }}
+              sx={{ 
+                color: muiTheme.palette.text.primary,
+                p: 0.5,
+              }}
             >
               <Badge badgeContent={notificationCount > 9 ? '9+' : notificationCount} color="primary">
                 <Bell size={18} />
@@ -190,7 +196,10 @@ export default function Header({ onChatClick }) {
               size="small"
               aria-label="Team chat"
               onClick={handleChatClick}
-              sx={{ color: muiTheme.palette.text.primary }}
+              sx={{ 
+                color: muiTheme.palette.text.primary,
+                p: 0.5,
+              }}
             >
               <Badge badgeContent={chatCount > 9 ? '9+' : chatCount} color="primary">
                 <MessageSquare size={18} />
@@ -205,6 +214,7 @@ export default function Header({ onChatClick }) {
                 gap: 0.5,
                 cursor: 'pointer',
                 ml: 0.5,
+                p: 0.5,
               }}
               onClick={handleProfileClick}
             >
