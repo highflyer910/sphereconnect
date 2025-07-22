@@ -46,7 +46,7 @@ const WelcomeSection = () => {
         mt: { xs: 2, md: 3 },
         p: { xs: 2.5, sm: 3, lg: 4 },
         borderRadius: 4,
-        background: gradientColors,
+        background: theme.palette.primary.main,
         color: textColor,
         boxShadow: theme.shadows[4],
         border: 'none',
