@@ -176,25 +176,49 @@ export default function Footer() {
           </Box>
         </Box>
 
-        <Box sx={{
-          borderTop: '1px solid',
-          borderColor: 'divider',
-          pt: 2,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
-          <Typography 
-            variant="caption" 
-            color="text.secondary"
-            sx={{ 
-              fontSize: { xs: '0.75rem', sm: '0.8125rem' },
-              textAlign: 'center'
-            }}
-          >
-            © 2025 SphereConnect
-          </Typography>
-        </Box>
+        <Box
+  sx={{
+    borderTop: '1px solid',
+    borderColor: 'divider',
+    pt: 2,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 1, // space between items
+    flexWrap: 'wrap', // wrap on small screens
+  }}
+>
+  <Typography
+    variant="caption"
+    color="text.secondary"
+    sx={{
+      fontSize: { xs: '0.75rem', sm: '0.8125rem' },
+      textAlign: 'center',
+    }}
+  >
+    © 2025 SphereConnect
+  </Typography>
+
+  <Typography
+    variant="caption"
+    color="text.secondary"
+    sx={{
+      fontSize: { xs: '0.75rem', sm: '0.8125rem' },
+      textAlign: 'center',
+    }}
+  >
+    • Made by Thea •{' '}
+    <a
+      href="https://github.com/highflyer910/sphereconnect"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ color: 'inherit', textDecoration: 'underline' }}
+    >
+      GitHub
+    </a>
+  </Typography>
+</Box>
+
       </Container>
     </Paper>
   );
